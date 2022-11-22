@@ -45,12 +45,16 @@
   width: fit-content;
   top: 30px;
   left: -15px;
-  background-color: aqua;
+  background-color: #eed3bc;
   border-radius: .5rem;
   padding: 15px;
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: flex-start;
+}
+
+.displayed{
+  display:flex !important;
 }
 
 .header > .user-opt > .opt-account > ul{
