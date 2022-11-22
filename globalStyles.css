@@ -1,0 +1,8 @@
+@font-face {
+  font-family: "Mulish";
+  src: url("./src/assets/fonts/Mulish.ttf");
+}
+
+body{
+  font-family: "Mulish", sans-serif;
+}
