@@ -1,3 +1,6 @@
+<?php
+  require_once("../../assets/utils/restrita.php");
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 
