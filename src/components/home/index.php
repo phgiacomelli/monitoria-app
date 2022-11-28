@@ -1,5 +1,8 @@
+<?php
+  require_once("../../assets/utils/restrita.php");
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
   <meta charset="UTF-8">
@@ -25,8 +28,12 @@
         <h1>Monitoria-app</h1>
       </div>
       <div class="user-opt">
-        <p>Paulo</p>
-        <svg id="user-logo" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
+        <p class="user">
+          <?php
+            echo $_SESSION['nome'];
+          ?>
+        </p>
+        <svg class="user" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
           style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
           <path
             d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm9 11v-1a7 7 0 0 0-7-7h-4a7 7 0 0 0-7 7v1h2v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1z">
@@ -57,13 +64,14 @@
   <!-- JQUERY -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script>
-    $('#open-menu').on("click", function () {
+     $('#open-menu').on("click", function () {
       $('.menu-bar').toggleClass('expand');
-    })
+     });
 
-    $('#user-logo').on("click", function () {
-      
-    }
+    $('.user').on("click", function () {
+      $('.opt-account').toggleClass('displayed');
+      console.log("b");
+    });
   </script>
 </body>
 

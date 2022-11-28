@@ -1,3 +1,22 @@
+
+<?php
+
+use models\Curso;
+use db\MySQL;
+
+require_once('../../../vendor/autoload.php');
+
+  // $cursos = Curso::findall();
+  $cursos = Curso::findall();
+  $conexao = new MySQL();
+  $sql = "SELECT * FROM curso";
+  $resultados = $conexao->consulta($sql);
+
+  $teste = array();
+  foreach ($cursos as $curso) {
+    var_dump($curso);
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,6 +51,18 @@
           <div class="form-group">
             <label for="email">E-mail</label>
             <input type="email" name="email" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label for="curso">Curso</label>
+            <!-- <input type="password" name="curso"> -->
+            <select name="curso" >
+              <?php
+                foreach ($cursos as $curso) {
+                  echo "<option value='{$curso['id']}'>{$curso['nome']}</option>";
+                }
+              ?> 
+              <option value=""></option>
+            </select>
           </div>
           <div class="form-group">
             <label for="pwd">Senha</label>

@@ -41,14 +41,14 @@
 }
 
 .header > .user-opt > .opt-account{
+  display: none;
   position: absolute;
   width: fit-content;
   top: 30px;
   left: -15px;
-  background-color: aqua;
+  background-color: #eed3bc;
   border-radius: .5rem;
   padding: 15px;
-  display: flex;
   flex-direction: column;
   justify-content: flex-start;
 }
@@ -66,6 +66,7 @@
   font-size: 1rem;
   text-decoration: none;
   color: #000000;
+  font-weight: 400;
 }
 
 
@@ -84,4 +85,8 @@
 
 .menu-bar.expand {
   width: 260px;
+}
+
+.displayed {
+  display: flex !important;
 }
