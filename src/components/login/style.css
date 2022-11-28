@@ -110,3 +110,29 @@
   background-color: #EB5328;
   border-radius: .8rem;
 }
+
+
+@media screen and (max-width: 425px){
+  .container{
+    justify-content: center;
+    align-items: center;
+  }
+  .form-img{
+    display: none;
+  }
+  .form-container{
+    padding: 1rem;
+
+  }
+  .form-content > form{
+    width: 80%;
+  }
+  .form-content > form > .form-group{
+    width: 100%;
+  }
+
+  .form-content > form > .form-group > input{
+    width: 100%;
+  }
+  
+}

@@ -109,7 +109,7 @@
 }
 
 .form-select{
-  width: 100% ;
+  width: 100%;
   position: relative;
 }
 
@@ -125,14 +125,19 @@
   border-radius: 10px;
 }
 select {
-  
   border-radius: 1rem;
-  background-color: transparent ;
+  background-color: transparent;
+  background: url("../../assets/imgs/arrow-down.png") no-repeat 95% center;
+  background-size: 15px;
   border: 2px solid #EB5328;
   outline: 0px;
+  color: #7A7A78;
   padding: 1.3rem 1.1rem .6rem .6rem;
   font-size: 15px;
   width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 select > option {
@@ -141,4 +146,36 @@ select > option {
 
 select :hover{
   background-color: #eed3bc !important;
+}
+
+@media screen and (max-width: 425px){
+  .container{
+    justify-content: center;
+    align-items: center;
+  }
+  .form-img{
+    display: none;
+  }
+  .form-container{
+    padding: 1rem;
+
+  }
+  .form-content > form{
+    width: 80%;
+  }
+  .form-content > form > .form-group{
+    width: 100%;
+  }
+
+  .form-content > form > .form-group > input{
+    width: 100%;
+  }
+
+  .form-select{
+    width: 100%;
+  }
+  select{
+    width: 100%;
+  }
+  
 }

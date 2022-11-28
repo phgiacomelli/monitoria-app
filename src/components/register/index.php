@@ -56,15 +56,15 @@ require_once('../../../vendor/autoload.php');
         <form action="./cadUsuario.php" method="post">
           <div class="form-group">
             <label for="name">Nome</label>
-            <input type="text" name="name" autocomplete="off">
+            <input type="text" name="name" autocomplete="off" placeholder="Seu nome">
           </div>
           <div class="form-group">
             <label for="tel">Telefone</label>
-            <input type="tel" name="tel" autocomplete="off">
+            <input type="tel" name="tel" autocomplete="off" placeholder="Seu telefone">
           </div>
           <div class="form-group">
             <label for="email">E-mail</label>
-            <input type="email" name="email" autocomplete="off">
+            <input type="email" name="email" autocomplete="off" placeholder="Seu email">
           </div>
           <div class="form-select" id="select">
             <label for="curso">Curso</label>
@@ -80,7 +80,7 @@ require_once('../../../vendor/autoload.php');
           </div>
           <div class="form-group">
             <label for="pwd">Senha</label>
-            <input type="password" name="pwd">
+            <input type="password" name="pwd"placeholder="Sua senha">
           </div>
           <!-- <div class="form-register">
             <p>Não tem uma conta?<a href="../register/index.html">Registre-se!</a></p>
