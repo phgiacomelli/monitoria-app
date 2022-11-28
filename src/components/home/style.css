@@ -53,6 +53,10 @@
   justify-content: flex-start;
 }
 
+.displayed{
+  display:flex !important;
+}
+
 .header > .user-opt > .opt-account > ul{
   list-style: none;
   margin: 0;

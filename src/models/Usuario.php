@@ -12,6 +12,8 @@ class Usuario implements ActiveRecord
   private string $nome;
   private string $contato;
   private string $tipo;
+  // private string $curso;
+  // private string $anoCorrente;
 
   public function __construct(
     private string $email,

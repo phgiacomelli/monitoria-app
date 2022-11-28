@@ -17,7 +17,7 @@ if (isset($_POST['submit'])) {
   $u->setIdCurso(10);
   
   $u->save();
-  header("location: ../login");
+  header("location: ../login/index.html");
 }else{
   return;
 }
