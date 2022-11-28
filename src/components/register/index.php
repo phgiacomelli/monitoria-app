@@ -8,14 +8,28 @@ require_once('../../../vendor/autoload.php');
 
   // $cursos = Curso::findall();
   $cursos = Curso::findall();
-  $conexao = new MySQL();
-  $sql = "SELECT * FROM curso";
-  $resultados = $conexao->consulta($sql);
-
-  $teste = array();
+  // $conexao = new MySQL();
+  // $sql = "SELECT * FROM curso";
+  // $resultados = $conexao->consulta($sql);
+  
   foreach ($cursos as $curso) {
-    var_dump($curso);
+    // var_dump();
   }
+
+  // foreach ($resultados as $resultado) {
+    // $c = new Curso(
+    //   $resultado[0]['nome'],
+    //   $resultado[0]['correnteAno'],
+    //   $resultado[0]['materias']
+    // );
+    // $c->setId($resultado['id']);
+    // $cursos[] = $c;
+  // }
+
+
+  // $teste = array();
+  // foreach ($cursos as $curso) {
+  // }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,16 +66,16 @@ require_once('../../../vendor/autoload.php');
             <label for="email">E-mail</label>
             <input type="email" name="email" autocomplete="off">
           </div>
-          <div class="form-group">
+          <div class="form-select" id="select">
             <label for="curso">Curso</label>
             <!-- <input type="password" name="curso"> -->
             <select name="curso" >
+              <option value="default" selected disabled>Selecione seu curso</option>
               <?php
                 foreach ($cursos as $curso) {
-                  echo "<option value='{$curso['id']}'>{$curso['nome']}</option>";
+                  echo "<option value='{$curso->getId()}'>{$curso->getNome()}</option>";
                 }
               ?> 
-              <option value=""></option>
             </select>
           </div>
           <div class="form-group">

@@ -114,9 +114,9 @@ class Curso implements ActiveRecord
     $cursos = array();
     foreach ($resultados as $resultado) {
       $c = new Curso(
-        $resultado[0]['nome'],
-        $resultado[0]['correnteAno'],
-        $resultado[0]['materias']
+        $resultado['nome'],
+        $resultado['correnteAno'],
+        $resultado['materias']
       );
       $c->setId($resultado['id']);
       $cursos[] = $c;
