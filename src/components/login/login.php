@@ -3,7 +3,6 @@ namespace login;
 
 use models\Usuario;
 
-
 if(isset($_POST['login'])){
   require_once('../../../vendor/autoload.php');
 
