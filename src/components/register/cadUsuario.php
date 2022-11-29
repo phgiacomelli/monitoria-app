@@ -3,10 +3,8 @@ namespace register;
 use models\Usuario;
 
 if (isset($_POST['submit'])) {
-  //  require_once __DIR__."/vendor/autoload.php";
   require_once('../../../vendor/autoload.php');
   
-  // var_dump($_POST);
   $u = new Usuario(
     $_POST['email'],
     $_POST['pwd'],
@@ -21,6 +19,3 @@ if (isset($_POST['submit'])) {
 }else{
   return;
 }
-
-
-?>

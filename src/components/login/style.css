@@ -111,7 +111,6 @@
   border-radius: .8rem;
 }
 
-
 @media screen and (max-width: 425px){
   .container{
     justify-content: center;

@@ -1,4 +1,3 @@
-
 <?php
 
 use models\Curso;
@@ -6,30 +5,30 @@ use db\MySQL;
 
 require_once('../../../vendor/autoload.php');
 
-  // $cursos = Curso::findall();
-  $cursos = Curso::findall();
-  // $conexao = new MySQL();
-  // $sql = "SELECT * FROM curso";
-  // $resultados = $conexao->consulta($sql);
-  
-  foreach ($cursos as $curso) {
-    // var_dump();
-  }
+// $cursos = Curso::findall();
+$cursos = Curso::findall();
+// $conexao = new MySQL();
+// $sql = "SELECT * FROM curso";
+// $resultados = $conexao->consulta($sql);
 
-  // foreach ($resultados as $resultado) {
-    // $c = new Curso(
-    //   $resultado[0]['nome'],
-    //   $resultado[0]['correnteAno'],
-    //   $resultado[0]['materias']
-    // );
-    // $c->setId($resultado['id']);
-    // $cursos[] = $c;
-  // }
+foreach ($cursos as $curso) {
+  // var_dump();
+}
+
+// foreach ($resultados as $resultado) {
+// $c = new Curso(
+//   $resultado[0]['nome'],
+//   $resultado[0]['correnteAno'],
+//   $resultado[0]['materias']
+// );
+// $c->setId($resultado['id']);
+// $cursos[] = $c;
+// }
 
 
-  // $teste = array();
-  // foreach ($cursos as $curso) {
-  // }
+// $teste = array();
+// foreach ($cursos as $curso) {
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,31 +67,24 @@ require_once('../../../vendor/autoload.php');
           </div>
           <div class="form-select" id="select">
             <label for="curso">Curso</label>
-            <!-- <input type="password" name="curso"> -->
-            <select name="curso" >
+            <select name="curso">
               <option value="default" selected disabled>Selecione seu curso</option>
               <?php
-                foreach ($cursos as $curso) {
-                  echo "<option value='{$curso->getId()}'>{$curso->getNome()}</option>";
-                }
-              ?> 
+              foreach ($cursos as $curso) {
+                echo "<option value='{$curso->getId()}'>{$curso->getNome()}</option>";
+              }
+              ?>
             </select>
           </div>
           <div class="form-group">
             <label for="pwd">Senha</label>
-            <input type="password" name="pwd"placeholder="Sua senha">
+            <input type="password" name="pwd" placeholder="Sua senha">
           </div>
-          <!-- <div class="form-register">
-            <p>Não tem uma conta?<a href="../register/index.html">Registre-se!</a></p>
-          </div> -->
           <input type="submit" name="submit" value="Registrar">
         </form>
       </div>
     </div>
   </div>
-
-
-  <!-- <img src="../assets/imgs/Webinar-amico.svg" alt=""> -->
 </body>
 
 </html>

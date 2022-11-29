@@ -1,5 +1,5 @@
 <?php
-  session_start();
-  if (!isset($_SESSION['idUsuario'])) {
-    header("Location: ../../components/login");
-  }
+session_start();
+if (!isset($_SESSION['idUsuario'])) {
+  header("Location: ../../components/login");
+}

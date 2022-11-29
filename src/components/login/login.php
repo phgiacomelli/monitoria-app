@@ -11,7 +11,6 @@ if(isset($_POST['login'])){
 
   if (!$u->authenticate()) {
     header("Location: index.php");
-    // var_dump($u->authenticate());
   }
   header("Location: ../home");
 
