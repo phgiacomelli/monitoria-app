@@ -145,12 +145,12 @@ class Usuario implements ActiveRecord
     $sql = "SELECT * FROM usuario WHERE id = {$id}";
     $resultado = $conexao->consulta($sql);
     $u = new Usuario(
-      $resultado[0]['nome'],
       $resultado[0]['email'],
-      $resultado[0]['senha'],
-      $resultado[0]['contato'],
-      $resultado[0]['tipo']
+      $resultado[0]['senha']
     );
+    $u->setNome($resultado[0]['nome']);
+    $u->setContato($resultado[0]['contato']);
+    $u->setTipo($resultado[0]['tipo']);
     $u->setId($resultado[0]['id']);
     $u->setIdCurso($resultado[0]['idCurso']);
     return $u;
@@ -179,16 +179,37 @@ class Usuario implements ActiveRecord
   public function authenticate(): bool
   {
     $conexao = new MySQL();
-    $sql = "SELECT id,nome,email,senha FROM usuario WHERE email = '{$this->email}'";
+    $sql = "SELECT id,nome,email,senha,tipo FROM usuario WHERE email = '{$this->email}'";
     $resultados = $conexao->consulta($sql);
     if (password_verify($this->senha, $resultados[0]['senha'])) {
       session_start();
       $_SESSION['idUsuario'] = $resultados[0]['id'];
       $_SESSION['email'] = $resultados[0]['email'];
       $_SESSION['nome'] = $resultados[0]['nome'];
+      $_SESSION['tipo'] = $resultados[0]['tipo'];
       return true;
     } else {
       return false;
     }
+  }
+
+  public static function getAdmin():Usuario | null{
+    $conexao = new MySQL();
+    $sql = "SELECT * FROM usuario WHERE tipo = 'admin'";
+    $resultado = $conexao->consulta($sql);
+
+    if (empty($resultado)) {
+      return null;
+    }
+    $u = new Usuario(
+      $resultado[0]['email'],
+      $resultado[0]['senha']
+    );
+    $u->setNome($resultado[0]['nome']);
+    $u->setContato($resultado[0]['contato']);
+    $u->setTipo($resultado[0]['tipo']);
+    $u->setId($resultado[0]['id']);
+    $u->setIdCurso($resultado[0]['idCurso']);
+    return $u;
   }
 }

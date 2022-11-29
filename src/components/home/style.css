@@ -17,9 +17,9 @@
   justify-content: space-between;
 }
 
-.header > .logo > svg{
+/* .header > .logo > svg{
   
-}
+} */
 
 .header > .logo > h1{
   font-size: 120%;
@@ -38,6 +38,7 @@
 }
 .header > .user-opt > p {
   font-weight: bold;
+  text-transform: capitalize;
 }
 
 .header > .user-opt > .opt-account{

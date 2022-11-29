@@ -14,7 +14,7 @@ if (isset($_POST['submit'])) {
   $u->setNome($_POST['name']);
   $u->setContato($_POST['tel']);
   $u->setTipo('aluno');
-  $u->setIdCurso(10);
+  $u->setIdCurso($_POST['curso']);
   
   $u->save();
   header("location: ../login/index.html");

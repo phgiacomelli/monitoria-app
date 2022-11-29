@@ -29,8 +29,7 @@
         <!-- <p>Paulo</p> -->
         <p>
           <?php
-          session_start();
-          echo $_SESSION['nome'];
+            echo $_SESSION['nome'];
           ?>
         </p>
 
@@ -55,7 +54,6 @@
     </div>
     <div class="menu-bar">
       <div class="menu-opt">
-        a
         <ul>
           <li>
             <a href="#">

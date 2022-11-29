@@ -1,3 +1,6 @@
+<?php
+  require_once("../../assets/utils/generateAdmin.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
