@@ -8,24 +8,25 @@ Como principal funcionalidade do **Aluno** temos:
 
 - Visualizar monitorias
 - Candidatar-se à monitor
+- Listagem de monitorias comparecidas
 
 
 Como principal funcionalidade do **Professor** temos:
 
 - Visualizar monitorias
-- Candidatar-se à monitor
 - Cadastro de monitoria
 - CRUD de Aluno
+- Confirmação de presença dos alunos
 
 
 
 Como principal funcionalidade do **Admin** temos:
 
 - Visualizar monitorias
-- Candidatar-se à monitor
 - Cadastro de monitoria
 - CRUD de Aluno
 - CRUD de Professor
+- Visualizar Presença de todas monitorias
 
 # Tecnologias Utilizadas
 
