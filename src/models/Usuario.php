@@ -163,11 +163,11 @@ class Usuario implements ActiveRecord
     $usuarios = array();
     foreach ($resultados as $resultado) {
       $p = new Usuario(
-        $resultado[0]['nome'],
-        $resultado[0]['email'],
-        $resultado[0]['senha'],
-        $resultado[0]['contato'],
-        $resultado[0]['tipo']
+        $resultado['nome'],
+        $resultado['email'],
+        $resultado['senha'],
+        $resultado['contato'],
+        $resultado['tipo']
       );
       $p->setId($resultado['id']);
       $p->setIdCurso($resultado['idCurso']);

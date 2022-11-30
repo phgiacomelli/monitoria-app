@@ -6,8 +6,9 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'register\\' => array($baseDir . '/src/components/register'),
     'models\\' => array($baseDir . '/src/models'),
     'login\\' => array($baseDir . '/src/components/login'),
     'db\\' => array($baseDir . '/src/db'),
+    'components\\' => array($baseDir . '/src/components/register'),
+    '' => array($baseDir . '/src'),
 );

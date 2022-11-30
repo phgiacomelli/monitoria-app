@@ -5,30 +5,8 @@ use db\MySQL;
 
 require_once('../../../vendor/autoload.php');
 
-// $cursos = Curso::findall();
 $cursos = Curso::findall();
-// $conexao = new MySQL();
-// $sql = "SELECT * FROM curso";
-// $resultados = $conexao->consulta($sql);
 
-foreach ($cursos as $curso) {
-  // var_dump();
-}
-
-// foreach ($resultados as $resultado) {
-// $c = new Curso(
-//   $resultado[0]['nome'],
-//   $resultado[0]['correnteAno'],
-//   $resultado[0]['materias']
-// );
-// $c->setId($resultado['id']);
-// $cursos[] = $c;
-// }
-
-
-// $teste = array();
-// foreach ($cursos as $curso) {
-// }
 ?>
 <!DOCTYPE html>
 <html lang="en">

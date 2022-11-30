@@ -10,5 +10,8 @@ return array(
     'db\\ActiveRecord' => $baseDir . '/src/db/ActiveRecord.php',
     'db\\MySQL' => $baseDir . '/src/db/MySQL.php',
     'models\\Curso' => $baseDir . '/src/models/Curso.php',
+    'models\\Materia' => $baseDir . '/src/models/Materia.php',
+    'models\\Monitoria' => $baseDir . '/src/models/Monitoria.php',
+    'models\\PresencaMonitoria' => $baseDir . '/src/models/PresencaMonitoria.php',
     'models\\Usuario' => $baseDir . '/src/models/Usuario.php',
 );

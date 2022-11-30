@@ -7,10 +7,6 @@ namespace Composer\Autoload;
 class ComposerStaticInitbf9066ab07cae047a6449c239386e9de
 {
     public static $prefixLengthsPsr4 = array (
-        'r' => 
-        array (
-            'register\\' => 9,
-        ),
         'm' => 
         array (
             'models\\' => 7,
@@ -23,13 +19,13 @@ class ComposerStaticInitbf9066ab07cae047a6449c239386e9de
         array (
             'db\\' => 3,
         ),
+        'c' => 
+        array (
+            'components\\' => 11,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'register\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src/components/register',
-        ),
         'models\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/models',
@@ -42,6 +38,14 @@ class ComposerStaticInitbf9066ab07cae047a6449c239386e9de
         array (
             0 => __DIR__ . '/../..' . '/src/db',
         ),
+        'components\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/components/register',
+        ),
+    );
+
+    public static $fallbackDirsPsr4 = array (
+        0 => __DIR__ . '/../..' . '/src',
     );
 
     public static $classMap = array (
@@ -49,6 +53,9 @@ class ComposerStaticInitbf9066ab07cae047a6449c239386e9de
         'db\\ActiveRecord' => __DIR__ . '/../..' . '/src/db/ActiveRecord.php',
         'db\\MySQL' => __DIR__ . '/../..' . '/src/db/MySQL.php',
         'models\\Curso' => __DIR__ . '/../..' . '/src/models/Curso.php',
+        'models\\Materia' => __DIR__ . '/../..' . '/src/models/Materia.php',
+        'models\\Monitoria' => __DIR__ . '/../..' . '/src/models/Monitoria.php',
+        'models\\PresencaMonitoria' => __DIR__ . '/../..' . '/src/models/PresencaMonitoria.php',
         'models\\Usuario' => __DIR__ . '/../..' . '/src/models/Usuario.php',
     );
 
@@ -57,6 +64,7 @@ class ComposerStaticInitbf9066ab07cae047a6449c239386e9de
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitbf9066ab07cae047a6449c239386e9de::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitbf9066ab07cae047a6449c239386e9de::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInitbf9066ab07cae047a6449c239386e9de::$fallbackDirsPsr4;
             $loader->classMap = ComposerStaticInitbf9066ab07cae047a6449c239386e9de::$classMap;
 
         }, null, ClassLoader::class);

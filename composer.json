@@ -2,9 +2,10 @@
     "name": "paulo/src",
     "autoload": {
         "psr-4": {
+            "":"src/",
             "db\\": "src/db",
             "models\\": "src/models",
-            "register\\":"src/components/register",
+            "components\\":"src/components/register",
             "login\\":"src/components/login"
         }
     },
