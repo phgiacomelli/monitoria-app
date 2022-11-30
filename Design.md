@@ -1,5 +1,7 @@
 # **monitoria-app**
 
+#### Integrantes: Paulo Giacomelli, Pedro Rhoden e Kelvin Kreuz
+
 O projeto foi desenvolvido com o intuito de auxiliar os alunos que queiram participar de uma monitoria referente ao seu curso.
 
 Como principal funcionalidade do **Aluno** temos:
