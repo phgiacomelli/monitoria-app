@@ -38,7 +38,6 @@
           <div class="form-register">
             <p>Não tem uma conta?<a href="../register/">Registre-se!</a></p>
           </div>
-          <input type="hidden" name="">
           <input type="submit" name="login" value="Entrar">
         </form>
       </div>

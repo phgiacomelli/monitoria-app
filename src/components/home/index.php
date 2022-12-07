@@ -144,6 +144,11 @@ $monitorias = Monitoria::findAll();
                   Fim: {$monitoria->getHorarioFim()}
                 </p>
               </div>
+              <div>
+                <p>
+                  Sala: {$monitoria->getSala()}
+                </p>
+              </div>
             </div>
             <div class='monitoria-btn'>
             <p>

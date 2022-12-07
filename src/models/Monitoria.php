@@ -17,7 +17,8 @@ class Monitoria implements ActiveRecord
     public string $horarioInicio,
     public string $data,
     public string $correnteAno,
-    public string $horarioFim
+    public string $horarioFim,
+    public string $sala
   ) {
   }
   #region id
@@ -104,6 +105,17 @@ class Monitoria implements ActiveRecord
   }
   #endregion
 
+  #region sala 
+  public function setSala(string $sala): void
+  {
+    $this->sala = $horarsalaioFim;
+  }
+
+  public function getSala(): string
+  {
+    return $this->horarsalaioFim;
+  }
+  #endregion
 
   public function save(): bool
   {
