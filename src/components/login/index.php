@@ -1,7 +1,8 @@
 <?php
   require_once("../../assets/utils/generateAdmin.php");
-  ini_set('display_errors', 1);
-  error_reporting(E_ALL);
+  require_once("../../translate/translate-service.php");
+  $_SESSION['language'] = 'en';
+  // var_dump($translate);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +24,11 @@
       <div class="form-img"></div>
       <div class="form-content">
         <div class="form-header">
-          <h1>Bem vindo ao <br><span>MONITORIA-APP!</span></h1>
+          <?php
+            $h1 ="<h1>{$translate->welcome} <br><span>MONITORIA-APP!</span></h1>";
+            echo $h1;
+          ?>
+          
           <!-- <p>Acesse para bnla bla bla</p> -->
         </div>
         <form action="login.php" method="post">
@@ -32,13 +37,25 @@
             <input type="email" name="email" autocomplete="off">
           </div>
           <div class="form-group">
-            <label for="pwd">Senha</label>
+            <?php
+              $label = "<label for='pwd'>{$translate->pwd}</label>";
+              echo $label;
+            ?>
+            <!-- <label for="pwd">Senha</label> -->
             <input type="password" name="pwd">
           </div>
           <div class="form-register">
-            <p>Não tem uma conta?<a href="../register/">Registre-se!</a></p>
+            <?php
+              $p = "<p>{$translate->registerText}<a href='../register/'>{$translate->registerLink}</a></p>";
+              echo $p;
+            ?>
+            <!-- <p>Não tem uma conta?<a href="../register/">Registre-se!</a></p> -->
           </div>
-          <input type="submit" name="login" value="Entrar">
+          <?php
+            $input = "<input type='submit' name='login' value='{$translate->loginBtn}'>";
+            echo $input;
+          ?>
+          <!-- <input type="submit" name="login" value="Entrar"> -->
         </form>
       </div>
     </div>

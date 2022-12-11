@@ -127,35 +127,36 @@ $monitorias = Monitoria::findAll();
 
         <div class="monitorias-list">
           <?php
+
           foreach ($monitorias as $monitoria) {
             $materia = Materia::find($monitoria->getIdMateria());
             $template =
               "<div class='monitoria'>
-            <div class='monitoria-header'>
-              <h2>{$materia->getNome()}</h2>
-            </div>
-            <div class='monitoria-content'>
-              <p class='monitoria-date'>Data: {$monitoria->getData()}</p>
-              <div class='monitoria-hours'>
-                <p>
-                  Início: {$monitoria->getHorarioInicio()}
-                </p>
-                <p>
-                  Fim: {$monitoria->getHorarioFim()}
-                </p>
+              <div class='monitoria-header'>
+                <h2>{$materia->getNome()}</h2>
               </div>
-              <div>
-                <p>
-                  Sala: {$monitoria->getSala()}
-                </p>
+              <div class='monitoria-content'>
+                <p class='monitoria-date'>Data: {$monitoria->getData()}</p>
+                <div class='monitoria-hours'>
+                  <p>
+                    Início: {$monitoria->getHorarioInicio()}
+                  </p>
+                  <p>
+                    Fim: {$monitoria->getHorarioFim()}
+                  </p>
+                </div>
+                <div>
+                  <p>
+                    Sala: {$monitoria->getSala()}
+                  </p>
+                </div>
               </div>
-            </div>
-            <div class='monitoria-btn'>
-            <p>
-              Marcar Presença
-            </p>
-            </div>
-          </div>";
+              <div class='monitoria-btn'>
+              <p>
+                Marcar Presença
+              </p>
+              </div>
+            </div>";
             echo $template;
           }
 
@@ -182,6 +183,9 @@ $monitorias = Monitoria::findAll();
                 </p>
               </div>
             </div>
+            <div>
+              <p>Sala: B2</p>
+            </div>
             <div class="monitoria-btn">
               Marcar Presença
             </div>
@@ -203,9 +207,9 @@ $monitorias = Monitoria::findAll();
       $('.opt-text').toggleClass('displayed');
     });
 
-    $('.view-monitorias').on("click", function(){
-      
-      console.log($('.monitorias-container').attr("data-hidden","false"));
+    $('.view-monitorias').on("click", function() {
+
+      console.log($('.monitorias-container').attr("data-hidden", "false"));
     });
 
     $('#user-logo').on("click", function() {

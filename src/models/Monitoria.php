@@ -2,7 +2,6 @@
 
 namespace models;
 
-use DateTime;
 use db\ActiveRecord;
 use db\MySQL;
 
@@ -108,12 +107,12 @@ class Monitoria implements ActiveRecord
   #region sala 
   public function setSala(string $sala): void
   {
-    $this->sala = $horarsalaioFim;
+    $this->sala = $sala;
   }
 
   public function getSala(): string
   {
-    return $this->horarsalaioFim;
+    return $this->sala;
   }
   #endregion
 
@@ -159,7 +158,8 @@ class Monitoria implements ActiveRecord
       $resultado[0]['horarioInicio'],
       $resultado[0]['data'],
       $resultado[0]['correnteAno'],
-      $resultado[0]['horarioFim']
+      $resultado[0]['horarioFim'],
+      $resultado[0]['sala']
     );
     $m->setId($resultado[0]['id']);
     $m->setIdMonitor($resultado[0]['idMonitor']);
@@ -178,7 +178,9 @@ class Monitoria implements ActiveRecord
         $resultado['horarioInicio'],
         $resultado['data'],
         $resultado['correnteAno'],
-        $resultado['horarioFim']
+        $resultado['horarioFim'],
+        $resultado['sala']
+
       );
       $m->setId($resultado['id']);
       $m->setIdMonitor($resultado['idMonitor']);

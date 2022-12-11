@@ -2,13 +2,12 @@
 
 namespace models;
 
-use DateTime;
-use db\ActiveRecord;
 use db\MySQL;
 
-class PresencaMonitoria implements ActiveRecord
+class PresencaMonitoria 
 {
 
+  private ?string $compareceu = null;
 
   public function __construct(
     private int $idUsuario,
@@ -39,17 +38,34 @@ class PresencaMonitoria implements ActiveRecord
   }
   #endregion
 
+  #region compareceu
+  public function setCompareceu(?string $compareceu): void
+  {
+    $this->compareceu = $compareceu;
+  }
 
-
+  public function getCompareceu(): string
+  {
+    return $this->compareceu;
+  }
+  #endregion
 
   public function save(): bool
   {
     $conexao = new MySQL();
-    $sql = "INSERT INTO presenca_monitoria (idUsuario,idMonitoria) 
+    if (!isset($this->idMonitoria)) {
+      $sql = "INSERT INTO presenca_monitoria (idUsuario,idMonitoria, compareceu) 
       VALUES (
         '{$this->idUsuario}' ,
-        '{$this->idMonitoria}')";
-
+        '{$this->idMonitoria}',
+        null)";  
+    } else{
+      $sql = "INSERT INTO presenca_monitoria (idUsuario,idMonitoria, compareceu) 
+      VALUES (
+        '{$this->idUsuario}' ,
+        '{$this->idMonitoria}',
+        '{$this->compareceu}')";  
+    }
     return $conexao->executa($sql);
   }
 
@@ -60,7 +76,7 @@ class PresencaMonitoria implements ActiveRecord
     return $conexao->executa($sql);
   }
 
-  public static function find($id): PresencaMonitoria
+  public static function find($idMonitoria): PresencaMonitoria
   {
     $m = new PresencaMonitoria(1,2);
     return $m;
@@ -81,6 +97,24 @@ class PresencaMonitoria implements ActiveRecord
         $resultado['idUsuario'],
         $resultado['idMonitoria']
       );
+      $m->setCompareceu($resultado['compareceu']);
+      $monitorias[] = $m;
+    }
+    return $monitorias;
+  }
+
+  public static function findAllByUsuario($idUsuario): array
+  {
+    $conexao = new MySQL();
+    $sql = "SELECT * FROM presenca_monitoria WHERE idUsuario = {$idUsuario}";
+    $resultados = $conexao->consulta($sql);
+    $monitorias = array();
+    foreach ($resultados as $resultado) {
+      $m = new PresencaMonitoria(
+        $resultado['idUsuario'],
+        $resultado['idMonitoria']
+      );
+      $m->setCompareceu($resultado['compareceu']);
       $monitorias[] = $m;
     }
     return $monitorias;
