@@ -21,7 +21,7 @@
   padding: 1rem 2rem 1rem 1rem;
   justify-content: space-between;
   box-shadow: 2px 0 6px #ae3412;
-  z-index: 1;
+  z-index: 99;
 }
 
 /* .header > .logo > svg{
@@ -92,7 +92,7 @@
   height: 100%;
   background-color: #eed3bc;
   position: fixed;
-  z-index: 0;
+  z-index: 1;
 }
 
 .menu-opt{
@@ -139,6 +139,7 @@
   padding: 8rem 2rem 3rem 10rem;
 }
 .monitorias-container{
+  
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -251,7 +252,7 @@
 }
 
 .modal{
-  z-index: 99;
+  z-index: 100;
 }
 
 .modal-title{
