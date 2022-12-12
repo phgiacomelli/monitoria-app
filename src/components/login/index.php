@@ -1,4 +1,6 @@
 <?php
+ 
+
   require_once("../../assets/utils/generateAdmin.php");
   require_once("../../translate/translate-service.php");
   $_SESSION['language'] = 'en';
@@ -60,9 +62,10 @@
       </div>
     </div>
   </div>
+  <script>
+  
+  </script>
 
-
-  <!-- <img src="../assets/imgs/Webinar-amico.svg" alt=""> -->
 </body>
 
 </html>

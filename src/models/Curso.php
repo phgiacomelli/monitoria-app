@@ -13,7 +13,9 @@ class Curso implements ActiveRecord
   public function __construct(
     public string $nome,
     public string $correnteAno,
-    public string $materias
+    public string $materias,
+    public string $sala,
+    public string $turno
   ) {
   }
   #region id
@@ -64,6 +66,29 @@ class Curso implements ActiveRecord
   }
   #endregion
 
+  #region sala 
+  public function setSala(string $sala): void
+  {
+    $this->sala = $sala;
+  }
+
+  public function getSala(): string
+  {
+    return $this->sala;
+  }
+  #endregion
+
+  #region turno 
+  public function setTurno(string $turno): void
+  {
+    $this->turno = $turno;
+  }
+
+  public function getTurno(): string
+  {
+    return $this->turno;
+  }
+  #endregion
 
   public function save(): bool
   {
@@ -73,14 +98,18 @@ class Curso implements ActiveRecord
       $sql = "UPDATE curso SET 
         nome = '{$this->nome}' ,
         correnteAno = '{$this->correnteAno}',
-        materias = '{$this->materias}'
+        materias = '{$this->materias}',
+        sala = '{$this->sala}',
+        turno = '{$this->turno}'
         WHERE id = {$this->id}";
     } else {
-      $sql = "INSERT INTO curso (nome,correnteAno,materias) 
+      $sql = "INSERT INTO curso (nome,correnteAno,materias,sala, turno) 
       VALUES (
           '{$this->nome}',
           '{$this->correnteAno}',
-          '{$this->materias}')";
+          '{$this->materias}',
+          '{$this->sala}',
+          '{$this->turno}')";
     }
     return $conexao->executa($sql);
   }
@@ -101,6 +130,8 @@ class Curso implements ActiveRecord
       $resultado[0]['nome'],
       $resultado[0]['correnteAno'],
       $resultado[0]['materias'],
+      $resultado[0]['sala'],
+      $resultado[0]['turno'],
     );
     $c->setId($resultado[0]['id']);
     return $c;
@@ -116,7 +147,9 @@ class Curso implements ActiveRecord
       $c = new Curso(
         $resultado['nome'],
         $resultado['correnteAno'],
-        $resultado['materias']
+        $resultado['materias'],
+        $resultado['sala'],
+        $resultado['turno']
       );
       $c->setId($resultado['id']);
       $cursos[] = $c;

@@ -21,7 +21,7 @@
   padding: 1rem 2rem 1rem 1rem;
   justify-content: space-between;
   box-shadow: 2px 0 6px #ae3412;
-  z-index: 99;
+  z-index: 1;
 }
 
 /* .header > .logo > svg{
@@ -35,6 +35,10 @@
   font-weight: 700;
   text-transform: uppercase;
   
+}
+
+.header > .logo > h1:hover{
+  cursor: pointer;
 }
 
 .header > .user-opt {
@@ -88,7 +92,7 @@
   height: 100%;
   background-color: #eed3bc;
   position: fixed;
-  z-index: 89;
+  z-index: 0;
 }
 
 .menu-opt{
@@ -132,22 +136,13 @@
 
 
 .main-content{
-  /* display: none; */
-  /* position: static; */
-  /* top: 0;
-  left: 0; */
-  /* background-color: #f0e2d7; */
-  /* :width: 100%; */
-  /* height: 100vh; */
   padding: 8rem 2rem 3rem 10rem;
-  /* z-index: 1; */
 }
 .monitorias-container{
   display: flex;
   flex-direction: column;
   gap: 2rem;
   padding-right: 6rem;
-  /* width: 100%; */
 }
 
 .monitorias-container > .title{
@@ -167,12 +162,10 @@
   gap: 4rem;
   flex-wrap: wrap;
   width: 100%;
-  /* height: 100%; */
 }
 
 .monitoria{
   width: 200px;
-  /* height: 180px; */
   height: fit-content;
   background-color: #EB5328;
   padding: 1.5rem;
@@ -193,7 +186,6 @@
   align-items: flex-end;
   text-align: center;
   padding: .2rem .2rem .4rem .2rem;
-  /* padding-bottom: .4rem; */
 }
 
 .monitoria > .monitoria-header > h2{
@@ -212,7 +204,19 @@
 
 .monitoria-content > .monitoria-date{
   margin-bottom: .5rem;
+  color:#fafafa;
+  font-weight: bold;
 }
+
+.monitoria-content > .monitoria-hours {
+  margin: .3rem 0;
+}
+
+.monitoria-content > .monitoria-class{
+  margin: .3rem 0;
+}
+
+
 [data-hidden = "true"]{
   display: none;
 }
@@ -224,8 +228,14 @@
   text-align: center;
   border-radius: 5px;
   transition: 0.2s all linear;
-  font-weight: 600;
 }
+
+.monitoria > .monitoria-btn a{
+  text-decoration: none;
+  font-weight: 600;
+  color: #000;
+}
+
 .monitoria-btn:hover{
   cursor: pointer;
   background-color: #b6a18e;
@@ -238,4 +248,13 @@
 
 .displayed {
   display: flex !important;
+}
+
+.modal{
+  z-index: 99;
+}
+
+.modal-title{
+  font-size: 100%;
+  font-weight: bold;
 }

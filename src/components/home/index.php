@@ -2,6 +2,7 @@
 
 use models\Materia;
 use models\Monitoria;
+use models\Usuario;
 
 require_once('../../../vendor/autoload.php');
 require_once("../../assets/utils/restrita.php");
@@ -21,6 +22,7 @@ $monitorias = Monitoria::findAll();
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="../../../globalStyles.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 
   <title>Monitoria-app | Home</title>
 </head>
@@ -127,64 +129,82 @@ $monitorias = Monitoria::findAll();
 
         <div class="monitorias-list">
           <?php
-
           foreach ($monitorias as $monitoria) {
+            $monitoriaId = $monitoria->getId();
             $materia = Materia::find($monitoria->getIdMateria());
+            $horaInicio = strtotime($monitoria->getHorarioInicio());
+            $horaInicioF = date("H:i", $horaInicio);
+            $horaFinal = strtotime($monitoria->getHorarioFim());
+            $horaFinalF = date("H:i", $horaFinal);
+            $monitor = Usuario::find($monitoria->getIdMonitor());
+            $nomeMonitor = $monitor->getNome();
+
             $template =
               "<div class='monitoria'>
               <div class='monitoria-header'>
                 <h2>{$materia->getNome()}</h2>
               </div>
               <div class='monitoria-content'>
-                <p class='monitoria-date'>Data: {$monitoria->getData()}</p>
+                <p class='monitoria-date'>📆 {$monitoria->getData()}</p>
                 <div class='monitoria-hours'>
                   <p>
-                    Início: {$monitoria->getHorarioInicio()}
-                  </p>
-                  <p>
-                    Fim: {$monitoria->getHorarioFim()}
+                    🕐 {$horaInicioF} - {$horaFinalF}
                   </p>
                 </div>
-                <div>
+                <div class='monitoria-class'>
                   <p>
-                    Sala: {$monitoria->getSala()}
+                    📌 {$monitoria->getSala()}
+                  </p>
+                </div>
+                <div class='monitoria-mentor'>
+                  <p>
+                    🎓 {$nomeMonitor}
                   </p>
                 </div>
               </div>
               <div class='monitoria-btn'>
               <p>
-                Marcar Presença
+                <a href='#presencaMonitoria{$monitoriaId}' rel='modal:open'>Marcar Presença</a>
               </p>
               </div>
-            </div>";
+            </div>
+            
+            <div id='presencaMonitoria{$monitoriaId}' class='modal'>
+              <h1 class='modal-title'>Tem certeza que deseja marcar presença na monitoria?</h1>
+              <div class='modal-btns'>
+                <div class='confirm'>
+                  <form action='marcaPresenca.php' method='post'>
+                    <input type='hidden' name='idMonitoria' value='{$monitoriaId}'>
+                    <input type='submit' name='confirmaPresena' value='Sim' >
+                  </form>
+                </div>
+                <div class='cancel'>
+                  <p>
+                    <a href='#' rel='modal:close'>Não</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+            ";
             echo $template;
           }
 
+
           ?>
-
-
-
-
-
-
-
           <div class="monitoria">
             <div class="monitoria-header">
               <h2>Matemática</h2>
             </div>
             <div class="monitoria-content">
-              <p class="monitoria-date">Data: 29/11/2022</p>
+              <p class="monitoria-date">📆 29/11/2022</p>
               <div class="monitoria-hours">
                 <p>
-                  Início: 10:00
-                </p>
-                <p>
-                  Fim: 10:00
+                  🕐 10:00 - 10:30
                 </p>
               </div>
             </div>
             <div>
-              <p>Sala: B2</p>
+              <p>🛋️ B2</p>
             </div>
             <div class="monitoria-btn">
               Marcar Presença
@@ -201,6 +221,8 @@ $monitorias = Monitoria::findAll();
 
   <!-- JQUERY -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
   <script>
     $('#open-menu').on("click", function() {
       $('.menu-bar').toggleClass('expand');
@@ -208,16 +230,12 @@ $monitorias = Monitoria::findAll();
     });
 
     $('.view-monitorias').on("click", function() {
-
-      console.log($('.monitorias-container').attr("data-hidden", "false"));
+      $('.monitorias-container').attr("data-hidden", "false");
     });
 
     $('#user-logo').on("click", function() {
       $('.opt-account').toggleClass('displayed');
     });
-  </script>
-  <script>
-
   </script>
 </body>
 

@@ -7,13 +7,27 @@ use db\MySQL;
 class PresencaMonitoria 
 {
 
-  private ?string $compareceu = null;
+  private int $uniqid;
+  private string $compareceu = 'Não';
 
   public function __construct(
     private int $idUsuario,
     private int $idMonitoria
   ) {
   }
+
+  #region uniqid
+  public function setUniqId(int $uniqid): void
+  {
+    $this->uniqid = $uniqid;
+  }
+
+  public function getUniqId(): int
+  {
+    return $this->uniqid;
+  }
+  #endregion
+
   #region idUsuario
   public function setIdUsuario(int $idUsuario): void
   {
@@ -39,13 +53,16 @@ class PresencaMonitoria
   #endregion
 
   #region compareceu
-  public function setCompareceu(?string $compareceu): void
+  public function setCompareceu(string $compareceu): void
   {
     $this->compareceu = $compareceu;
   }
 
   public function getCompareceu(): string
   {
+    if ($this->compareceu == null) {
+      return 'Não';
+    }
     return $this->compareceu;
   }
   #endregion
@@ -53,19 +70,20 @@ class PresencaMonitoria
   public function save(): bool
   {
     $conexao = new MySQL();
-    if (!isset($this->idMonitoria)) {
-      $sql = "INSERT INTO presenca_monitoria (idUsuario,idMonitoria, compareceu) 
-      VALUES (
-        '{$this->idUsuario}' ,
-        '{$this->idMonitoria}',
-        null)";  
+    if (isset($this->uniqid)) {
+      $sql = "UPDATE presenca_monitoria SET  
+      idUsuario = '{$this->idUsuario}',
+      idMonitoria = '{$this->idMonitoria}', 
+      compareceu = '{$this->compareceu}') 
+      WHERE uniqid = {$this->uniqid}";  
     } else{
       $sql = "INSERT INTO presenca_monitoria (idUsuario,idMonitoria, compareceu) 
-      VALUES (
-        '{$this->idUsuario}' ,
-        '{$this->idMonitoria}',
-        '{$this->compareceu}')";  
+    VALUES (
+      '{$this->idUsuario}',
+      '{$this->idMonitoria}',
+      '{$this->compareceu}')"; 
     }
+    
     return $conexao->executa($sql);
   }
 
@@ -97,6 +115,7 @@ class PresencaMonitoria
         $resultado['idUsuario'],
         $resultado['idMonitoria']
       );
+      $m->setUniqId($resultado['uniqID']);
       $m->setCompareceu($resultado['compareceu']);
       $monitorias[] = $m;
     }
@@ -114,6 +133,7 @@ class PresencaMonitoria
         $resultado['idUsuario'],
         $resultado['idMonitoria']
       );
+      $m->setUniqId($resultado['uniqID']);
       $m->setCompareceu($resultado['compareceu']);
       $monitorias[] = $m;
     }
