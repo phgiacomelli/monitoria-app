@@ -15,12 +15,14 @@
   <link rel="stylesheet" href="../../../reset.css">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="../../../globalStyles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 
   <title>Monitoria-app | Login</title>
 </head>
 
 <body>
   <div class="container">
+  <span class="material-symbols-outlined" id="openLangMenu">language</span>
     <div class="form-container">
       <div class="form-img"></div>
       <div class="form-content">

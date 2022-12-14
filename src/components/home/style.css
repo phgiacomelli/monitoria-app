@@ -280,10 +280,14 @@
   transition: 0.2s all linear;
 }
 
+.monitoria > .monitoria-btn > a > p{
+  width: 100%;
+  height: 100%;
+}
 .monitoria > .monitoria-btn a{
   text-decoration: none;
   font-weight: 600;
-  color: #000;
+  color: #000;  
 }
 
 .monitoria-btn:hover{
@@ -307,4 +311,31 @@
 .modal-title{
   font-size: 100%;
   font-weight: bold;
+  width: 100%;
+  text-align: center;
+}
+
+.modal-btns{
+  display: flex;
+  padding: 1rem 1rem 1rem 0;
+  gap: 1.5rem;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-btns > .confirm > form > input[type='submit'],
+.modal-btns > .cancel a{
+  border: none;
+  border-radius: .4rem;
+  padding: .6rem;
+  color: white;
+  text-decoration: none;
+  font-size: 100%;
+}
+.modal-btns > .confirm > form > input[type='submit']{
+  background-color: green;
+}
+.modal-btns > .cancel a{
+  background-color: red;
 }

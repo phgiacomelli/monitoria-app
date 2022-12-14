@@ -5,5 +5,13 @@
   "registerLink": "Register!",
   "loginBtn" : "Login",
   "pwd" : "Password",
-  "menuTutoringTitle":"View tutoring"
+  "menuTutoringTitle":"View tutoring",
+  "myAccount" : "My account",
+  "logout" : "Logout",
+  "confirmedPresence": "Confirmed presence",
+  "presenceBtn": "Attend",
+  "questPresence": "Are you sure you want to attend the tutoring?",
+  "yesBtn": "Yes",
+  "noBtn": "No",
+  "tutoringList" : "Tutoring list"
 }

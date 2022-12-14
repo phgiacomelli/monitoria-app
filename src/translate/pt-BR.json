@@ -5,5 +5,13 @@
   "registerLink": "Registre-se!",
   "loginBtn" : "Entrar",
   "pwd" : "Senha",
-  "menuTutoringTitle":"Visualizar monitorias"
+  "menuTutoringTitle":"Visualizar monitorias",
+  "myAccount" : "Minha conta",
+  "logout" : "Sair",
+  "confirmedPresence": "Presença confirmada",
+  "presenceBtn": "Marcar presença",
+  "questPresence": "Tem certeza que deseja marcar presença na monitoria?",
+  "yesBtn": "Sim",
+  "noBtn": "Não",
+  "tutoringList" : "Listagem de Monitorias"
 }

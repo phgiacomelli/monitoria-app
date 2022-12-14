@@ -52,10 +52,18 @@ $presencas = PresencaMonitoria::findAllByUsuario($_SESSION['idUsuario']);
         <div class="opt-account">
           <ul>
             <li>
-              <a href="#">Minha conta</a>
+              <a href="#">
+              <?php
+                    echo $translate->myAccount;
+              ?>
+              </a>
             </li>
             <li>
-              <a href="../../assets/utils/logout.php">Sair</a>
+              <a href="../../assets/utils/logout.php">
+              <?php
+                    echo $translate->logout;
+              ?>
+              </a>
             </li>
           </ul>
         </div>
@@ -142,7 +150,9 @@ $presencas = PresencaMonitoria::findAllByUsuario($_SESSION['idUsuario']);
       <div class="monitorias-container" data-hidden="true">
         <div class="title">
           <h1>
-            Listagem de Monitorias
+            <?php
+              echo $translate->tutoringList;
+            ?>
           </h1>
         </div>
 
@@ -164,14 +174,20 @@ $presencas = PresencaMonitoria::findAllByUsuario($_SESSION['idUsuario']);
                 $confirmou = true;
               }
             }
-            $btn ="<p>
-              <a href='#presencaMonitoria{$monitoriaId}' rel='modal:open'>Marcar Presença</a>
-            </p>";
+            $btn ="
+              <a href='#presencaMonitoria{$monitoriaId}' rel='modal:open'>
+                <p>{$translate->presenceBtn}</p>
+              </a>
+            ";
 
             if ($confirmou) {
-              $btn = "<p>
-              <a>Presença confirmada</a>
-            </p>";
+              $btn = "
+              <a>
+                <p>
+                  {$translate->confirmedPresence}
+                </p>
+              </a>
+            ";
             }
 
             $template =
@@ -198,23 +214,23 @@ $presencas = PresencaMonitoria::findAllByUsuario($_SESSION['idUsuario']);
                 </div>
               </div>
               <div class='monitoria-btn'>
-              {$btn}
+                {$btn}
               </div>
             </div>
             
             <div id='presencaMonitoria{$monitoriaId}' class='modal'>
-              <h1 class='modal-title'>Tem certeza que deseja marcar presença na monitoria?</h1>
+              <h1 class='modal-title'>{$translate->questPresence}</h1>
               <div class='modal-btns'>
                 <div class='confirm'>
                   <form action='marcaPresenca.php' method='post'>
                     <input type='hidden' name='idMonitoria' value='{$monitoriaId}'>
-                    <input type='submit' name='confirmaPresena' value='Sim' >
+                    <input type='submit' name='confirmaPresena' value='{$translate->yesBtn}' >
                   </form>
                 </div>
                 <div class='cancel'>
-                  <p>
-                    <a href='#' rel='modal:close'>Não</a>
-                  </p>
+                  
+                    <a href='#' rel='modal:close'>{$translate->noBtn}</a>
+                  
                 </div>
               </div>
             </div>
