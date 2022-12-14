@@ -4,7 +4,6 @@
   require_once("../../assets/utils/generateAdmin.php");
   require_once("../../translate/translate-service.php");
   $_SESSION['language'] = 'en';
-  // var_dump($translate);
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -4,5 +4,6 @@
   "registerText": "Don't have an account?",
   "registerLink": "Register!",
   "loginBtn" : "Login",
-  "pwd" : "Password"  
+  "pwd" : "Password",
+  "menuTutoringTitle":"View tutoring"
 }

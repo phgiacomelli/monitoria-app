@@ -4,5 +4,6 @@
   "registerText": "Não tem uma conta?",
   "registerLink": "Registre-se!",
   "loginBtn" : "Entrar",
-  "pwd" : "Senha"
+  "pwd" : "Senha",
+  "menuTutoringTitle":"Visualizar monitorias"
 }

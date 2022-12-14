@@ -1,15 +1,15 @@
 <?php
-
 use models\Materia;
 use models\Monitoria;
+use models\PresencaMonitoria;
 use models\Usuario;
-
 require_once('../../../vendor/autoload.php');
 require_once("../../assets/utils/restrita.php");
-
+require_once("../../translate/translate-service.php");
 
 $monitorias = Monitoria::findAll();
 // var_dump($monitorias[0]);
+$presencas = PresencaMonitoria::findAllByUsuario($_SESSION['idUsuario']);
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -59,8 +59,25 @@ $monitorias = Monitoria::findAll();
             </li>
           </ul>
         </div>
-
-        <span class="material-symbols-outlined">language</span>
+        <div class="lang">
+          <span class="material-symbols-outlined" id="openLangMenu">language</span>
+        </div>
+        <div class="lang-opt">
+          <ul>
+            <li>
+              <form action="../../assets/utils/toggleLanguage.php" method="post">
+                <input type="hidden" value="en" name="lang">
+                <input type="submit" value="en" name="selectLang">
+              </form>
+            </li>
+            <li>
+              <form action="../../assets/utils/toggleLanguage.php" method="post">
+                <input type="hidden" value="ptbr" name="lang">
+                <input type="submit" value="pt-BR" name="selectLang">
+              </form>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
     <div class="menu-bar">
@@ -73,7 +90,9 @@ $monitorias = Monitoria::findAll();
                   <path d="M19.893 3.001H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h15.893c1.103 0 2-.897 2-2V5a2.003 2.003 0 0 0-2-1.999zM8 19.001H4V8h4v11.001zm6 0h-4V8h4v11.001zm2 0V8h3.893l.001 11.001H16z"></path>
                 </svg>
                 <p class="opt-text">
-                  Visualizar monitorias
+                  <?php
+                    echo $translate->menuTutoringTitle;
+                  ?>
                 </p>
               </a>
             </li>
@@ -138,6 +157,22 @@ $monitorias = Monitoria::findAll();
             $horaFinalF = date("H:i", $horaFinal);
             $monitor = Usuario::find($monitoria->getIdMonitor());
             $nomeMonitor = $monitor->getNome();
+            
+            $confirmou = false;
+            foreach ($presencas as $presenca) {
+              if ($presenca->getIdMonitoria() == $monitoriaId) {
+                $confirmou = true;
+              }
+            }
+            $btn ="<p>
+              <a href='#presencaMonitoria{$monitoriaId}' rel='modal:open'>Marcar Presença</a>
+            </p>";
+
+            if ($confirmou) {
+              $btn = "<p>
+              <a>Presença confirmada</a>
+            </p>";
+            }
 
             $template =
               "<div class='monitoria'>
@@ -163,9 +198,7 @@ $monitorias = Monitoria::findAll();
                 </div>
               </div>
               <div class='monitoria-btn'>
-              <p>
-                <a href='#presencaMonitoria{$monitoriaId}' rel='modal:open'>Marcar Presença</a>
-              </p>
+              {$btn}
               </div>
             </div>
             
@@ -188,30 +221,7 @@ $monitorias = Monitoria::findAll();
             ";
             echo $template;
           }
-
-
           ?>
-          <div class="monitoria">
-            <div class="monitoria-header">
-              <h2>Matemática</h2>
-            </div>
-            <div class="monitoria-content">
-              <p class="monitoria-date">📆 29/11/2022</p>
-              <div class="monitoria-hours">
-                <p>
-                  🕐 10:00 - 10:30
-                </p>
-              </div>
-            </div>
-            <div>
-              <p>🛋️ B2</p>
-            </div>
-            <div class="monitoria-btn">
-              Marcar Presença
-            </div>
-          </div>
-
-
         </div>
       </div>
     </div>
@@ -224,18 +234,37 @@ $monitorias = Monitoria::findAll();
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 
   <script>
+    // Expande o menu lateral
     $('#open-menu').on("click", function() {
       $('.menu-bar').toggleClass('expand');
       $('.opt-text').toggleClass('displayed');
     });
 
+    // Exibe a listagem de monitorias
     $('.view-monitorias').on("click", function() {
       $('.monitorias-container').attr("data-hidden", "false");
     });
 
+    // Abre o menu do usuário
     $('#user-logo').on("click", function() {
-      $('.opt-account').toggleClass('displayed');
+      if (!($('.lang-opt').hasClass('displayed')))
+        $('.opt-account').toggleClass('displayed');
     });
+
+    // Abre o menu de linguagem do site
+    $('#openLangMenu').on("click", function () {
+      if (!($('.opt-account').hasClass('displayed')))
+        $('.lang-opt').toggleClass('displayed');
+    })
+
+    // Fecha os menus ao clicar na div principal de conteudos
+    $('.main-content').on("click", function () {
+      $('.menu-bar').removeClass('expand');
+      $('.opt-text').removeClass('displayed');
+      $('.opt-account').removeClass('displayed');
+      $('.lang-opt').removeClass('displayed');
+    })
+
   </script>
 </body>
 
