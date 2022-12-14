@@ -3,7 +3,6 @@
 
   require_once("../../assets/utils/generateAdmin.php");
   require_once("../../translate/translate-service.php");
-  $_SESSION['language'] = 'en';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +21,13 @@
 
 <body>
   <div class="container">
-  <span class="material-symbols-outlined" id="openLangMenu">language</span>
+    <div class="lang">
+      <form action="../../assets/utils/toggleLanguage.php" method="post">
+        <button style="border:none; background-color:transparent;" type="submit" name="loginToggleLanguage">
+          <span class="material-symbols-outlined" id="openLangMenu">language</span>
+        </button>
+      </form>
+    </div>
     <div class="form-container">
       <div class="form-img"></div>
       <div class="form-content">
@@ -37,15 +42,17 @@
         <form action="login.php" method="post">
           <div class="form-group">
             <label for="email">E-mail</label>
-            <input type="email" name="email" autocomplete="off">
+            <?php
+              echo "<input type='email' name='email' autocomplete='off' placeholder='{$translate->placeholderEmail}'>";
+            ?>
           </div>
           <div class="form-group">
             <?php
-              $label = "<label for='pwd'>{$translate->pwd}</label>";
-              echo $label;
+              echo "<label for='pwd'>{$translate->lblPwd}</label>
+                    <input type='password' name='pwd' placeholder='{$translate->placeholderPwd}'>";
             ?>
             <!-- <label for="pwd">Senha</label> -->
-            <input type="password" name="pwd">
+            
           </div>
           <div class="form-register">
             <?php

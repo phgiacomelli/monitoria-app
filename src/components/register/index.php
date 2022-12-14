@@ -4,6 +4,7 @@ use models\Curso;
 use db\MySQL;
 
 require_once('../../../vendor/autoload.php');
+require_once("../../translate/translate-service.php");
 
 $cursos = Curso::findall();
 
@@ -28,26 +29,41 @@ $cursos = Curso::findall();
       <div class="form-img"></div>
       <div class="form-content">
         <div class="form-header">
-          <h1>Crie sua conta no <br><span>MONITORIA-APP!</span></h1>
+          <!-- <h1>Crie sua conta no <br><span>MONITORIA-APP!</span></h1> -->
+          <?php
+          $h1 = "<h1>{$translate->registerTitle} <br><span>MONITORIA-APP!</span></h1>";
+          echo $h1;
+          ?>
         </div>
         <form action="./cadUsuario.php" method="post">
           <div class="form-group">
-            <label for="name">Nome</label>
-            <input type="text" name="name" autocomplete="off" placeholder="Seu nome">
+            <?php
+            echo  "<label for='name'>{$translate->lblName}</label>
+                   <input type='text' name='name' autocomplete='off' placeholder='{$translate->placeholderName}'>";
+            ?>
+
           </div>
           <div class="form-group">
-            <label for="tel">Telefone</label>
-            <input type="tel" name="tel" autocomplete="off" placeholder="Seu telefone">
+            <?php
+            echo  "<label for='tel'>{$translate->lblTel}</label>
+                     <input type='tel' name='tel' autocomplete='off' placeholder='{$translate->placeholderTel}'>";
+            ?>
+
           </div>
           <div class="form-group">
             <label for="email">E-mail</label>
-            <input type="email" name="email" autocomplete="off" placeholder="Seu email">
+            <?php
+            echo  "<input type='email' name='email' autocomplete='off' placeholder='{$translate->placeholderEmail}'>";
+            ?>
+
           </div>
           <div class="form-select" id="select">
-            <label for="curso">Curso</label>
+            <?php
+            echo  "<label for='curso'>{$translate->lblCourse}</label>";
+            ?>
             <select name="curso">
-              <option value="default" selected disabled>Selecione seu curso</option>
               <?php
+              echo "<option value='default' selected disabled>{$translate->placeholderCourse}</option>";
               foreach ($cursos as $curso) {
                 echo "<option value='{$curso->getId()}'>{$curso->getNome()}</option>";
               }
@@ -55,10 +71,16 @@ $cursos = Curso::findall();
             </select>
           </div>
           <div class="form-group">
-            <label for="pwd">Senha</label>
-            <input type="password" name="pwd" placeholder="Sua senha">
+            <?php
+            echo  "<label for='pwd'>{$translate->lblPwd}</label>
+                   <input type='password' name='pwd' placeholder='{$translate->placeholderPwd}'>";
+            ?>
+            
           </div>
-          <input type="submit" name="submit" value="Registrar">
+          <?php
+            echo "<input type='submit' name='submit' value='{$translate->registerBtn}'>";
+          ?>
+          
         </form>
       </div>
     </div>

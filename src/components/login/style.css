@@ -9,6 +9,16 @@
   background-size: cover;
 }
 
+.lang{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.lang:hover{
+  cursor: pointer;
+}
+
 .form-container {
   display: flex;
   justify-content: center;
