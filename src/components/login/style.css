@@ -15,7 +15,7 @@
   right: 10px;
 }
 
-.lang:hover{
+.lang :hover{
   cursor: pointer;
 }
 
