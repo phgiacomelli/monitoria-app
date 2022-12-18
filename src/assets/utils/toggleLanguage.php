@@ -7,10 +7,14 @@
   }
 
   if (isset($_POST['loginToggleLanguage'])) {
-    if ($_SESSION['language'] == 'ptbr') {
+    if (!isset($_SESSION['language'])) {
       $_SESSION['language'] = 'en';
-    } else{
-      $_SESSION['language'] = 'ptbr';
+    }else{
+      if ($_SESSION['language'] == 'ptbr') {
+        $_SESSION['language'] = 'en';
+      } else{
+        $_SESSION['language'] = 'ptbr';
+      }
     }
   }
   header('Location: ../../components/home');

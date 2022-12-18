@@ -1,15 +1,19 @@
 <?php
+
+use models\Curso;
 use models\Materia;
 use models\Monitoria;
 use models\PresencaMonitoria;
 use models\Usuario;
+
 require_once('../../../vendor/autoload.php');
 require_once("../../assets/utils/restrita.php");
 require_once("../../translate/translate-service.php");
 
 $monitorias = Monitoria::findAll();
-// var_dump($monitorias[0]);
 $presencas = PresencaMonitoria::findAllByUsuario($_SESSION['idUsuario']);
+$cursos = Curso::findall();
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -53,16 +57,16 @@ $presencas = PresencaMonitoria::findAllByUsuario($_SESSION['idUsuario']);
           <ul>
             <li>
               <a href="#">
-              <?php
-                    echo $translate->myAccount;
-              ?>
+                <?php
+                echo $translate->myAccount;
+                ?>
               </a>
             </li>
             <li>
               <a href="../../assets/utils/logout.php">
-              <?php
-                    echo $translate->logout;
-              ?>
+                <?php
+                echo $translate->logout;
+                ?>
               </a>
             </li>
           </ul>
@@ -91,7 +95,7 @@ $presencas = PresencaMonitoria::findAllByUsuario($_SESSION['idUsuario']);
     <div class="menu-bar">
       <div class="menu-opt">
         <div class="menu-opt-content">
-          <ul>
+          <ul class="menu-opt-list">
             <li>
               <a href="#" class="view-monitorias" title="Visualizar monitorias">
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
@@ -99,12 +103,12 @@ $presencas = PresencaMonitoria::findAllByUsuario($_SESSION['idUsuario']);
                 </svg>
                 <p class="opt-text">
                   <?php
-                    echo $translate->menuTutoringTitle;
+                  echo $translate->menuTutoringTitle;
                   ?>
                 </p>
               </a>
             </li>
-            <li>
+            <!-- <li>
               <a href="#" title="Candidatar-se à monitor">
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
                   <path d="M20 6h-3V4c0-1.103-.897-2-2-2H9c-1.103 0-2 .897-2 2v2H4c-1.103 0-2 .897-2 2v11c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V8c0-1.103-.897-2-2-2zm-5-2v2H9V4h6zM8 8h12v3H4V8h4zM4 19v-6h6v2h4v-2h6l.001 6H4z"></path>
@@ -113,31 +117,49 @@ $presencas = PresencaMonitoria::findAllByUsuario($_SESSION['idUsuario']);
                   Candidatar-se à monitor
                 </p>
               </a>
-            </li>
+            </li> -->
             <?php
-
+            $features = "";
+            $menuStudentRegistration = $translate->menuStudentRegistration;
+            $menuTeacherRegistration = $translate->menuTeacherRegistration;
             if ($_SESSION['tipo'] == 'admin') {
 
               $features = "
               <li>
-                <a href='#' title='Aluno'>
+                <a href='#' class='view-cadStudent' title='Cadastro de Aluno'>
                 <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' style='transform: ;msFilter:;'><path d='M9.715 12c1.151 0 2-.849 2-2s-.849-2-2-2-2 .849-2 2 .848 2 2 2z'></path><path d='M20 4H4c-1.103 0-2 .841-2 1.875v12.25C2 19.159 2.897 20 4 20h16c1.103 0 2-.841 2-1.875V5.875C22 4.841 21.103 4 20 4zm0 14-16-.011V6l16 .011V18z'></path><path d='M14 9h4v2h-4zm1 4h3v2h-3zm-1.57 2.536c0-1.374-1.676-2.786-3.715-2.786S6 14.162 6 15.536V16h7.43v-.464z'></path></svg>
                 
                   <p class='opt-text'>
-                    Aluno
+                    {$menuStudentRegistration}
                   </p>
                 </a>
               </li>
               <li>
-                <a href='#' title='Professor'>
-                <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' style='transform: ;msFilter:;'><path d='M2 7v1l11 4 9-4V7L11 4z'></path><path d='M4 11v4.267c0 1.621 4.001 3.893 9 3.734 4-.126 6.586-1.972 7-3.467.024-.089.037-.178.037-.268V11L13 14l-5-1.667v3.213l-1-.364V12l-3-1z'></path></svg>
+                <a href='#' class='view-cadTeacher' title='Cadastro de Professor'>
+                <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' style='transform: ;msFilter:;'><path d='M9.715 12c1.151 0 2-.849 2-2s-.849-2-2-2-2 .849-2 2 .848 2 2 2z'></path><path d='M20 4H4c-1.103 0-2 .841-2 1.875v12.25C2 19.159 2.897 20 4 20h16c1.103 0 2-.841 2-1.875V5.875C22 4.841 21.103 4 20 4zm0 14-16-.011V6l16 .011V18z'></path><path d='M14 9h4v2h-4zm1 4h3v2h-3zm-1.57 2.536c0-1.374-1.676-2.786-3.715-2.786S6 14.162 6 15.536V16h7.43v-.464z'></path></svg>
+                
                   <p class='opt-text'>
-                    Professor
+                    {$menuTeacherRegistration}
+                  </p>
+                </a>
+              </li>
+              ";
+            }
+
+            if ($_SESSION['tipo'] == 'professor') {
+              $menuTutoringRegistration = $translate->menuTutoringRegistration;
+              $features = "
+              <li>
+                <a href='#' title='Cadastrar monitoria'>
+                <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' style='transform: ;msFilter:;'><path d='M3 8v11c0 2.201 1.794 3 3 3h15v-2H6.012C5.55 19.988 5 19.806 5 19c0-.101.009-.191.024-.273.112-.576.584-.717.988-.727H21V4c0-1.103-.897-2-2-2H6c-1.206 0-3 .799-3 3v3zm3-4h13v12H5V5c0-.806.55-.988 1-1z'></path><path d='M11 14h2v-3h3V9h-3V6h-2v3H8v2h3z'></path></svg>
+                  <p class='opt-text'>
+                    {$menuTutoringRegistration}
                   </p>
                 </a>
               </li>";
-              echo $features;
             }
+
+            echo $features;
             ?>
 
           </ul>
@@ -151,7 +173,7 @@ $presencas = PresencaMonitoria::findAllByUsuario($_SESSION['idUsuario']);
         <div class="title">
           <h1>
             <?php
-              echo $translate->tutoringList;
+            echo $translate->tutoringList;
             ?>
           </h1>
         </div>
@@ -167,28 +189,35 @@ $presencas = PresencaMonitoria::findAllByUsuario($_SESSION['idUsuario']);
             $horaFinalF = date("H:i", $horaFinal);
             $monitor = Usuario::find($monitoria->getIdMonitor());
             $nomeMonitor = $monitor->getNome();
-            
+
             $confirmou = false;
             foreach ($presencas as $presenca) {
               if ($presenca->getIdMonitoria() == $monitoriaId) {
                 $confirmou = true;
               }
             }
-            $btn ="
-              <a href='#presencaMonitoria{$monitoriaId}' rel='modal:open'>
-                <p>{$translate->presenceBtn}</p>
-              </a>
+            $btn = "
+              <div class='monitoria-btn'>
+                <a href='#presencaMonitoria{$monitoriaId}' rel='modal:open'>
+                  <p>{$translate->presenceBtn}</p>
+                </a>
+              </div>
             ";
 
             if ($confirmou) {
               $btn = "
-              <a>
-                <p>
-                  {$translate->confirmedPresence}
-                </p>
-              </a>
+                <div class='monitoria-btn attend'>
+                  <a>
+                    <p>
+                      {$translate->confirmedPresence}
+                    </p>
+                  </a>
+                </div>
             ";
             }
+
+            if ($_SESSION['tipo'] != 'aluno')
+              $btn = '';
 
             $template =
               "<div class='monitoria'>
@@ -213,9 +242,8 @@ $presencas = PresencaMonitoria::findAllByUsuario($_SESSION['idUsuario']);
                   </p>
                 </div>
               </div>
-              <div class='monitoria-btn'>
-                {$btn}
-              </div>
+              
+              {$btn}
             </div>
             
             <div id='presencaMonitoria{$monitoriaId}' class='modal'>
@@ -240,6 +268,143 @@ $presencas = PresencaMonitoria::findAllByUsuario($_SESSION['idUsuario']);
           ?>
         </div>
       </div>
+
+      <div class="cadStudent-container" data-hidden="true">
+        <div class="title">
+          <h1>
+            <?php
+            echo $translate->menuStudentRegistration;
+            ?>
+          </h1>
+        </div>
+
+        <div class="cad-form">
+          <form action="./cadUser.php" method="post">
+            <div class="form-group">
+              <?php
+              echo "<label for='name'>{$translate->lblName}</label>
+                        <input type='text' name='name' placeholder='{$translate->placeholderName}' required>";
+              ?>
+              </label>
+            </div>
+            <div class="form-group">
+              <?php
+              echo "<label for='email'>E-mail</label>
+                        <input type='email' name='email' placeholder='{$translate->placeholderEmail}' required>";
+              ?>
+              </label>
+            </div>
+            <div class="form-group">
+              <?php
+              echo "<label for='tel'>{$translate->lblTel}</label>
+                        <input type='tel' name='tel' placeholder='{$translate->placeholderTel}' required>";
+              ?>
+              </label>
+            </div>
+
+            <div class="form-select">
+              <?php
+              echo  "<label for='curso'>{$translate->lblCourse}</label>";
+              ?>
+              <select name="course" id="course" required>
+                <?php
+                echo "<option value='default' selected disabled>{$translate->placeholderCourse}</option>";
+                foreach ($cursos as $curso) {
+                  echo "<option value='{$curso->getId()}'>{$curso->getNome()}</option>";
+                }
+                ?>
+              </select>
+            </div>
+
+            <?php
+              echo "<input type='submit' name='cadStudent' value='{$translate->registerBtn}'>";
+            ?>
+          </form>
+        </div>
+      </div>
+
+
+      <div class="cadTeacher-container" data-hidden="true">
+        <div class="title">
+          <h1>
+            <?php
+              echo $translate->menuTeacherRegistration;
+            ?>
+          </h1>
+        </div>
+
+        <div class="cad-form">
+          <form action="./cadUser.php" method="post">
+            <div class="form-group">
+              <?php
+              echo "<label for='name'>{$translate->lblName}</label>
+                        <input type='text' name='name' placeholder='{$translate->placeholderName}' required>";
+              ?>
+              </label>
+            </div>
+            <div class="form-group">
+              <?php
+              echo "<label for='email'>E-mail</label>
+                        <input type='email' name='email' placeholder='{$translate->placeholderEmail}' required>";
+              ?>
+              </label>
+            </div>
+            <div class="form-group">
+              <?php
+              echo "<label for='tel'>{$translate->lblTel}</label>
+                        <input type='tel' name='tel' placeholder='{$translate->placeholderTel}' required>";
+              ?>
+              </label>
+            </div>
+
+            <?php
+              echo "<input type='submit' name='cadTeacher' value='{$translate->registerBtn}'>";
+            ?>
+          </form>
+        </div>
+      </div>
+
+
+      <div class="cadTutoring-container" data-hidden="false">
+        <div class="title">
+          <h1>
+            <?php
+              echo $translate->menuTutoringRegistration;
+            ?>
+          </h1>
+        </div>
+
+        <div class="cad-form">
+          <form action="./cadUser.php" method="post">
+            <div class="form-group">
+              <?php
+              echo "<label for='name'>{$translate->lblName}</label>
+                        <input type='text' name='name' placeholder='{$translate->placeholderName}' required>";
+              ?>
+              </label>
+            </div>
+            <div class="form-group">
+              <?php
+              echo "<label for='email'>E-mail</label>
+                        <input type='email' name='email' placeholder='{$translate->placeholderEmail}' required>";
+              ?>
+              </label>
+            </div>
+            <div class="form-group">
+              <?php
+              echo "<label for='tel'>{$translate->lblTel}</label>
+                        <input type='tel' name='tel' placeholder='{$translate->placeholderTel}' required>";
+              ?>
+              </label>
+            </div>
+
+            <?php
+              echo "<input type='submit' name='cadTeacher' value='{$translate->registerBtn}'>";
+            ?>
+          </form>
+        </div>
+      </div>
+
     </div>
 
 
@@ -259,6 +424,23 @@ $presencas = PresencaMonitoria::findAllByUsuario($_SESSION['idUsuario']);
     // Exibe a listagem de monitorias
     $('.view-monitorias').on("click", function() {
       $('.monitorias-container').attr("data-hidden", "false");
+
+      $('.cadTeacher-container').attr("data-hidden", "true");
+      $('.cadStudent-container').attr("data-hidden", "true");
+    });
+
+    $('.view-cadTeacher').on("click", function() {
+      $('.cadTeacher-container').attr("data-hidden", "false");
+
+      $('.monitorias-container').attr("data-hidden", "true");
+      $('.cadStudent-container').attr("data-hidden", "true");
+    });
+
+    $('.view-cadStudent').on("click", function() {
+      $('.cadStudent-container').attr("data-hidden", "false");
+
+      $('.monitorias-container').attr("data-hidden", "true");
+      $('.cadTeacher-container').attr("data-hidden", "true");
     });
 
     // Abre o menu do usuário
@@ -268,19 +450,31 @@ $presencas = PresencaMonitoria::findAllByUsuario($_SESSION['idUsuario']);
     });
 
     // Abre o menu de linguagem do site
-    $('#openLangMenu').on("click", function () {
+    $('#openLangMenu').on("click", function() {
       if (!($('.opt-account').hasClass('displayed')))
         $('.lang-opt').toggleClass('displayed');
-    })
+    });
 
     // Fecha os menus ao clicar na div principal de conteudos
-    $('.main-content').on("click", function () {
+    $('.main-content').on("click", function() {
       $('.menu-bar').removeClass('expand');
       $('.opt-text').removeClass('displayed');
       $('.opt-account').removeClass('displayed');
       $('.lang-opt').removeClass('displayed');
-    })
+    });
 
+    // Pegando a lista de elementos na barra de menu lateral
+    let menuOptList = $('.menu-opt-list').get()[0].children;
+
+    // percorrendo a lista e setando que se caso clicar em cima de algum 
+    // elemento, minimiza a barra
+    for (let i = 0; i < menuOptList.length; i++) {
+      let e = menuOptList[i]
+      $(e).on("click", function() {
+        $('.menu-bar').removeClass('expand');
+        $('.opt-text').removeClass('displayed');
+      })
+    }
   </script>
 </body>
 

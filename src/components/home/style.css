@@ -192,16 +192,17 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  padding-right: 6rem;
+  /* padding-right: 6rem; */
 }
 
-.monitorias-container > .title{
+.title{
   background-color: #fafafa;
   padding: 1rem;
   border-radius: 1rem;
   width: 100%;
 }
-.monitorias-container > .title > h1{
+
+.title > h1{
   font-size: 180%;
   font-weight: bold;
 }
@@ -338,4 +339,109 @@
 }
 .modal-btns > .cancel a{
   background-color: red;
+}
+
+.monitoria-btn.attend :hover{
+  cursor: auto;
+  user-select: none;
+}
+
+.cad-form{
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.cad-form > form{
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.form-group{
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  padding: .8rem .5rem .5rem .5rem;
+  border-radius: 1rem;
+  /* gap: .5rem; */
+  position: relative;
+  width: fit-content;
+  border: 2px solid #EB5328;
+}
+
+.form-group > label{
+  position: absolute;
+  top: -12px;
+  left: 5px;
+  color: #eed3bc;
+  font-size: 14px;
+  /* background-color: #914c14; */
+  background-color: #EB5328;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.form-group > input{
+  outline: none;
+  border: none;
+  font-size: 15px;
+  padding: .5rem .5rem .1rem .1rem;
+  background-color: transparent;
+  /* border-bottom: 1px solid black; */
+  width: 250px;
+}
+
+.form-select{
+  width: 100%;
+  position: relative;
+}
+
+.form-select > label{
+  position: absolute;
+  top: -12px;
+  left: 7px;
+  color: #eed3bc;
+  font-size: 14px;
+  /* background-color: #914c14; */
+  background-color: #EB5328;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+select {
+  border-radius: 1rem;
+  background-color: transparent;
+  background: url("../../assets/imgs/arrow-down.png") no-repeat 95% center;
+  background-size: 15px;
+  border: 2px solid #EB5328;
+  outline: 0px;
+  color: #7A7A78;
+  padding: 1.3rem 1.1rem .6rem .6rem;
+  font-size: 15px;
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+select > option {
+  background-color: #69340831;
+  color: black;
+}
+
+select :hover{
+  background-color: #eed3bc !important;
+}
+
+
+.cad-form > form > input[type=submit]{
+  border: none;
+  padding: 1rem 2rem;
+  color: #eed3bc;
+  font-size: 18px;
+  background-color: #EB5328;
+  border-radius: .8rem;
 }

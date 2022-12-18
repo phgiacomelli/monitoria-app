@@ -119,14 +119,13 @@ class Usuario implements ActiveRecord
         idCurso = '{$this->idCurso}' ,
         fotoPerfil = 'noimage.png' WHERE id = {$this->id}";
     } else {
-      $sql = "INSERT INTO usuario (nome,email,senha,contato,tipo,idCurso,fotoPerfil) 
+      $sql = "INSERT INTO usuario (nome,email,senha,contato,tipo,fotoPerfil) 
       VALUES (
           '{$this->nome}',
           '{$this->email}',
           '{$this->senha}' ,
           '{$this->contato}' ,
-          '{$this->tipo}' ,
-          '{$this->idCurso}' ,
+          '{$this->tipo}',
           'noimage.png')";
     }
     return $conexao->executa($sql);
@@ -182,15 +181,19 @@ class Usuario implements ActiveRecord
     $sql = "SELECT id,nome,email,senha,tipo FROM usuario WHERE email = '{$this->email}'";
     $resultados = $conexao->consulta($sql);
     if (password_verify($this->senha, $resultados[0]['senha'])) {
-      session_start();
+      if (!isset($_SESSION)) {
+        session_start();
+      }
       $_SESSION['idUsuario'] = $resultados[0]['id'];
       $_SESSION['email'] = $resultados[0]['email'];
       $_SESSION['nome'] = $resultados[0]['nome'];
       $_SESSION['tipo'] = $resultados[0]['tipo'];
+      // $_SESSION['language'] = 'en';
       return true;
-    } else {
-      return false;
-    }
+    } 
+
+    return false;
+    
   }
 
   public static function getAdmin():Usuario | null{

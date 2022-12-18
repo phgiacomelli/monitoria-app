@@ -1,6 +1,4 @@
 <?php
- 
-
   require_once("../../assets/utils/generateAdmin.php");
   require_once("../../translate/translate-service.php");
 ?>

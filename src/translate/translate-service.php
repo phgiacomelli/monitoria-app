@@ -1,6 +1,11 @@
 <?php
-if (!isset($_SESSION['idUsuario'])) {
+
+// session_start();
+if (!isset($_SESSION)) {
   session_start();
+}
+if (!isset($_SESSION['language'])) {
+  $_SESSION['language'] = 'en';
 }
 
 $json_ptbr = file_get_contents(__DIR__ . "\\pt-BR.json");
