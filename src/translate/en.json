@@ -13,6 +13,7 @@
   "lblStart":"Start",
   "lblEnd":"End",
   "lblClass":"Class",
+  "lblStudent":"Student",
   "placeholderName":"Your name",
   "placeholderTel":"Your telphone",
   "placeholderCourse":"Select your course",
@@ -21,12 +22,15 @@
   "placeholderEmail":"Your e-mail",
   "placeholderSubject":"Select a Subject",
   "placeholderClass":"Select a Class",
+  "placeholderStudent":"Select a Student",
   "loginBtn" : "Login",
   "registerBtn" : "Register",
   "menuTutoringTitle":"View tutoring",
   "menuStudentRegistration" : "Student Registration",
   "menuTeacherRegistration" : "Teacher Registration",
   "menuTutoringRegistration" : "Tutoring Registration",
+  "menuTutorRegistration" : "Tutor registration",
+  "menuConfirmPresences" : "Confirm Attendances",
   "myAccount" : "My account",
   "logout" : "Logout",
   "confirmedPresence": "Presence confirmed",
@@ -39,5 +43,8 @@
   "optStudent": "Student",
   "deleteTutoring":"Cancel",
   "questDelete":"Are you sure you want to delete this tutoring?",
-  "notFoundTutoring":"No tutoring found..."
+  "notFoundTutoring":"No tutoring found...",
+  "confirmPresenceBtn":"Confirm presence",
+  "questConfirmPresence" :"Are you sure you want to confirm the presence of this student?",
+  "notFoundPresences":"No attendance confirmation found"
 }

@@ -8,10 +8,11 @@ class Monitor implements ActiveRecord
 {
 
   private int $id;
+  private string $correnteAno;
+
   public function __construct(
     private int $idUsuario,
     private int $idMateria,
-    private string $correnteAno
   ) {
   }
   #region id
@@ -74,12 +75,13 @@ class Monitor implements ActiveRecord
         idMateria = '{$this->idMateria}',
         correnteAno = '{$this->correnteAno}' WHERE id = {$this->id}";
     } else {
-      $sql = "INSERT INTO monitor (idUsuario,idMateria,correnteAno) 
+      $sql = "INSERT INTO monitor (idUsuario,correnteAno,idMateria) 
       VALUES (
-          '{$this->idUsuario}',
-          '{$this->idMateria}',
-          '{$this->correnteAno}'";
+          {$this->idUsuario},
+          year(current_date()),
+         {$this->idMateria})";
     }
+    var_dump($sql);
     return $conexao->executa($sql);
   }
 
@@ -98,8 +100,8 @@ class Monitor implements ActiveRecord
     $m = new Monitor(
       $resultado[0]['idUsuario'],
       $resultado[0]['idMateria'],
-      $resultado[0]['correnteAno']
     );
+    $m->setCorrenteAno($resultado[0]['correnteAno']);
     $m->setId($resultado[0]['id']);
     return $m;
   }
@@ -113,8 +115,8 @@ class Monitor implements ActiveRecord
       $m = new Monitor(
         $resultado['idUsuario'],
         $resultado['idMateria'],
-        $resultado['correnteAno']
       );
+      $m->setCorrenteAno($resultado['correnteAno']);
       $m->setId($resultado['id']);
       $monitores[] = $m;
     }
@@ -132,6 +134,7 @@ class Monitor implements ActiveRecord
         $resultado[0]['idMateria'],
         $resultado[0]['correnteAno']
       );
+      $m->setCorrenteAno($resultado[0]['correnteAno']);
       $m->setId($resultado[0]['id']);
       return $m;
     } else{

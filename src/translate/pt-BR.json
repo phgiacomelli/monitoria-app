@@ -13,6 +13,7 @@
   "lblStart":"Início",
   "lblEnd":"Fim",
   "lblClass":"Sala",
+  "lblStudent":"Aluno",
   "placeholderName":"Seu nome",
   "placeholderTel":"Seu telefone",
   "placeholderCourse":"Selecione seu curso",
@@ -21,12 +22,15 @@
   "placeholderEmail":"Seu e-mail",
   "placeholderSubject":"Selecione a matéria",
   "placeholderClass":"Selecione a Sala",
+  "placeholderStudent":"Selecione um Aluno",
   "loginBtn" : "Entrar",
   "registerBtn" : "Cadastrar",
   "menuTutoringTitle":"Visualizar monitorias",
   "menuStudentRegistration" : "Cadastro de Aluno",
   "menuTeacherRegistration" : "Cadastro de Professor",
   "menuTutoringRegistration" : "Cadastro de Monitoria",
+  "menuTutorRegistration" : "Cadastro de Monitor",
+  "menuConfirmPresences" : "Confirmar Presenças",
   "myAccount" : "Minha conta",
   "logout" : "Sair",
   "confirmedPresence": "Presença confirmada",
@@ -39,5 +43,8 @@
   "optStudent": "Aluno",
   "deleteTutoring":"Cancelar",
   "questDelete":"Tem certeza que deseja deletar esta monitoria?",
-  "notFoundTutoring":"Nenhuma monitoria encontrada..."
+  "notFoundTutoring":"Nenhuma monitoria encontrada...",
+  "confirmPresenceBtn":"Confirmar presença",
+  "questConfirmPresence" :"Você têm certeza que deseja confirmar a presença deste aluno?",
+  "notFoundPresences":"Nenhuma confirmação de presença encontrada..."
 }

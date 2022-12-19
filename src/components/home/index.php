@@ -16,7 +16,8 @@ $presencas = PresencaMonitoria::findAllByUsuario($_SESSION['idUsuario']);
 $cursos = Curso::findall();
 $monitores = Monitor::findall();
 $materias = Materia::findall();
-// var_dump($materias);
+$todasPresencas = PresencaMonitoria::findAll();
+$alunosNaoMonitores = Usuario::findAllStudentAreNotTutor();
 
 ?>
 <!DOCTYPE html>
@@ -31,6 +32,7 @@ $materias = Materia::findall();
   <link rel="stylesheet" href="../../../globalStyles.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 
   <title>Monitoria-app | Home</title>
 </head>
@@ -101,7 +103,7 @@ $materias = Materia::findall();
         <div class="menu-opt-content">
           <ul class="menu-opt-list">
             <li>
-              <a href="#" class="view-monitorias" title="Visualizar monitorias">
+              <a href="#" class="view-monitorias">
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
                   <path d="M19.893 3.001H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h15.893c1.103 0 2-.897 2-2V5a2.003 2.003 0 0 0-2-1.999zM8 19.001H4V8h4v11.001zm6 0h-4V8h4v11.001zm2 0V8h3.893l.001 11.001H16z"></path>
                 </svg>
@@ -130,7 +132,7 @@ $materias = Materia::findall();
 
               $features = "
               <li>
-                <a href='#' class='view-cadStudent' title='Cadastro de Aluno'>
+                <a href='#' class='view-cadStudent' >
                 <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' style='transform: ;msFilter:;'><path d='M9.715 12c1.151 0 2-.849 2-2s-.849-2-2-2-2 .849-2 2 .848 2 2 2z'></path><path d='M20 4H4c-1.103 0-2 .841-2 1.875v12.25C2 19.159 2.897 20 4 20h16c1.103 0 2-.841 2-1.875V5.875C22 4.841 21.103 4 20 4zm0 14-16-.011V6l16 .011V18z'></path><path d='M14 9h4v2h-4zm1 4h3v2h-3zm-1.57 2.536c0-1.374-1.676-2.786-3.715-2.786S6 14.162 6 15.536V16h7.43v-.464z'></path></svg>
                 
                   <p class='opt-text'>
@@ -139,7 +141,7 @@ $materias = Materia::findall();
                 </a>
               </li>
               <li>
-                <a href='#' class='view-cadTeacher' title='Cadastro de Professor'>
+                <a href='#' class='view-cadTeacher' >
                 <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' style='transform: ;msFilter:;'><path d='M9.715 12c1.151 0 2-.849 2-2s-.849-2-2-2-2 .849-2 2 .848 2 2 2z'></path><path d='M20 4H4c-1.103 0-2 .841-2 1.875v12.25C2 19.159 2.897 20 4 20h16c1.103 0 2-.841 2-1.875V5.875C22 4.841 21.103 4 20 4zm0 14-16-.011V6l16 .011V18z'></path><path d='M14 9h4v2h-4zm1 4h3v2h-3zm-1.57 2.536c0-1.374-1.676-2.786-3.715-2.786S6 14.162 6 15.536V16h7.43v-.464z'></path></svg>
                 
                   <p class='opt-text'>
@@ -152,15 +154,34 @@ $materias = Materia::findall();
 
             if ($_SESSION['tipo'] == 'professor') {
               $menuTutoringRegistration = $translate->menuTutoringRegistration;
+              $menuConfirmPresences = $translate->menuConfirmPresences;
+              $menuTutorRegistration = $translate->menuTutorRegistration;
               $features = "
               <li>
-                <a href='#' class='view-cadTutoring' title='Cadastrar monitoria'>
+                <a href='#' class='view-cadTutoring'>
                 <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' style='transform: ;msFilter:;'><path d='M3 8v11c0 2.201 1.794 3 3 3h15v-2H6.012C5.55 19.988 5 19.806 5 19c0-.101.009-.191.024-.273.112-.576.584-.717.988-.727H21V4c0-1.103-.897-2-2-2H6c-1.206 0-3 .799-3 3v3zm3-4h13v12H5V5c0-.806.55-.988 1-1z'></path><path d='M11 14h2v-3h3V9h-3V6h-2v3H8v2h3z'></path></svg>
                   <p class='opt-text'>
                     {$menuTutoringRegistration}
                   </p>
                 </a>
-              </li>";
+              </li>
+              <li>
+                <a href='#' class='view-confirmPresence'>
+                <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' style='transform: ;msFilter:;'><path d='M20.29 8.29 16 12.58l-1.3-1.29-1.41 1.42 2.7 2.7 5.72-5.7zM4 8a3.91 3.91 0 0 0 4 4 3.91 3.91 0 0 0 4-4 3.91 3.91 0 0 0-4-4 3.91 3.91 0 0 0-4 4zm6 0a1.91 1.91 0 0 1-2 2 1.91 1.91 0 0 1-2-2 1.91 1.91 0 0 1 2-2 1.91 1.91 0 0 1 2 2zM4 18a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3v1h2v-1a5 5 0 0 0-5-5H7a5 5 0 0 0-5 5v1h2z'></path></svg>
+                  <p class='opt-text'>
+                    {$menuConfirmPresences}
+                  </p>
+                </a>
+              </li>
+              <li>
+                <a href='#' class='view-cadTutor'>
+                <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' style='transform: ;msFilter:;'><path d='M19 8h-2v3h-3v2h3v3h2v-3h3v-2h-3zM4 8a3.91 3.91 0 0 0 4 4 3.91 3.91 0 0 0 4-4 3.91 3.91 0 0 0-4-4 3.91 3.91 0 0 0-4 4zm6 0a1.91 1.91 0 0 1-2 2 1.91 1.91 0 0 1-2-2 1.91 1.91 0 0 1 2-2 1.91 1.91 0 0 1 2 2zM4 18a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3v1h2v-1a5 5 0 0 0-5-5H7a5 5 0 0 0-5 5v1h2z'></path></svg>
+                  <p class='opt-text'>
+                    {$menuTutorRegistration}
+                  </p>
+                </a>
+              </li>
+              ";
             }
 
             echo $features;
@@ -195,7 +216,7 @@ $materias = Materia::findall();
               $monitor = Monitor::find($monitoria->getIdMonitor());
               $userMonitor = Usuario::find($monitor->getIdUsuario());
               $nomeMonitor = $userMonitor->getNome();
-  
+
               $confirmou = false;
               foreach ($presencas as $presenca) {
                 if ($presenca->getIdMonitoria() == $monitoriaId) {
@@ -209,7 +230,7 @@ $materias = Materia::findall();
                   </a>
                 </div>
               ";
-  
+
               if ($confirmou) {
                 $btn = "
                   <div class='monitoria-btn attend'>
@@ -221,7 +242,7 @@ $materias = Materia::findall();
                   </div>
               ";
               }
-  
+
               if ($_SESSION['tipo'] != 'aluno')
                 $btn = "
                 <div class='monitoria-btn'>
@@ -229,7 +250,7 @@ $materias = Materia::findall();
                     <p>{$translate->deleteTutoring}</p>
                   </a>
                 </div>";
-  
+
               $template =
                 "<div class='monitoria'>
                 <div class='monitoria-header'>
@@ -291,7 +312,7 @@ $materias = Materia::findall();
               ";
               echo $template;
             }
-          } else{
+          } else {
             echo "<h2 class='not-found'>{$translate->notFoundTutoring}</h2>";
           }
           ?>
@@ -346,7 +367,7 @@ $materias = Materia::findall();
             </div>
 
             <?php
-              echo "<input type='submit' name='cadStudent' value='{$translate->registerBtn}'>";
+            echo "<input type='submit' name='cadStudent' value='{$translate->registerBtn}'>";
             ?>
           </form>
         </div>
@@ -357,7 +378,7 @@ $materias = Materia::findall();
         <div class="title">
           <h1>
             <?php
-              echo $translate->menuTeacherRegistration;
+            echo $translate->menuTeacherRegistration;
             ?>
           </h1>
         </div>
@@ -387,7 +408,7 @@ $materias = Materia::findall();
             </div>
 
             <?php
-              echo "<input type='submit' name='cadTeacher' value='{$translate->registerBtn}'>";
+            echo "<input type='submit' name='cadTeacher' value='{$translate->registerBtn}'>";
             ?>
           </form>
         </div>
@@ -398,13 +419,13 @@ $materias = Materia::findall();
         <div class="title">
           <h1>
             <?php
-              echo $translate->menuTutoringRegistration;
+            echo $translate->menuTutoringRegistration;
             ?>
           </h1>
         </div>
 
         <div class="cad-form">
-          <form action="./cadTutoring.php" method="post">
+          <form action="" id="cadTutoring" method="post">
             <div class="form-group">
               <?php
               echo "<label for='start'>{$translate->lblStart}</label>
@@ -450,7 +471,157 @@ $materias = Materia::findall();
 
             <?php
 
-              echo "<input type='submit' name='cadTutoring' value='{$translate->registerBtn}'>";
+            echo "<input type='submit' name='cadTutoring' value='{$translate->registerBtn}'>";
+            ?>
+          </form>
+        </div>
+      </div>
+
+
+      <div class="presence-container" data-hidden="true">
+        <div class="title">
+          <h1>
+            <?php
+            echo $translate->menuConfirmPresences;
+            ?>
+          </h1>
+        </div>
+
+        <div class="monitorias-list">
+          <?php
+
+          if (count($todasPresencas) > 0) {
+            foreach ($todasPresencas as $presenca) {
+              $student = Usuario::find($presenca->getIdUsuario());
+              $monitoria = Monitoria::find($presenca->getIdMonitoria());
+              $materia = Materia::find($monitoria->getIdMateria());
+              $materiaName = $materia->getNome();
+              $studenName = $student->getNome();
+
+              $horaInicio = strtotime($monitoria->getHorarioInicio());
+              $horaInicioF = date("H:i", $horaInicio);
+              $horaFinal = strtotime($monitoria->getHorarioFim());
+              $horaFinalF = date("H:i", $horaFinal);
+
+              $btn = "
+                  <div class='monitoria-btn attend'>
+                    <a>
+                      <p>
+                        {$translate->confirmedPresence}
+                      </p>
+                    </a>
+                  </div>
+               ";
+              if (strtolower($presenca->getCompareceu()) == 'não') {
+                $btn = "<div class='monitoria-btn'>
+                   <a href='#confirmPresence{$presenca->getUniqId()}' rel='modal:open'>
+                     <p>{$translate->confirmPresenceBtn}</p>
+                   </a>
+                 </div>";
+              }
+
+
+
+
+              $template = "
+              <div class='monitoria'>
+                <div class='monitoria-header'>
+                  <h2>{$studenName}</h2>
+                </div>
+                <div class='monitoria-content'>
+                  <div class='monitoria-date'>
+                    <p>
+                      🪑 {$materiaName}
+                    </p>
+                  </div>
+                  <div class='monitoria-hours'>
+                    <p>
+                      🕐 {$horaInicioF} - {$horaFinalF}
+                    </p>
+                  </div>
+                </div>
+                <div class='monitoria-class'>
+                  <p>
+                    📌 {$monitoria->getSala()}
+                  </p>
+                </div>
+                <div class='monitoria-mentor'>
+                  <p>
+                    🎓 {$nomeMonitor}
+                  </p>
+                </div> 
+                {$btn}
+              </div>
+
+              <div id='confirmPresence{$presenca->getUniqId()}' class='modal'>
+                 <h1 class='modal-title'>{$translate->questConfirmPresence}</h1>
+                 <div class='modal-btns'>
+                  <div class='confirm'>
+                     <form action='confirmaPresenca.php' method='post'>
+                       <input type='hidden' name='idPresence' value='{$presenca->getUniqId()}'>
+                       <input type='submit' name='confirmaPresenca' value='{$translate->yesBtn}' >
+                     </form>
+                   </div>
+                   <div class='cancel'>
+                    
+                       <a href='#' rel='modal:close'>{$translate->noBtn}</a>
+                    
+                   </div>
+                 </div>
+               </div>
+
+              ";
+            }
+            echo $template;
+          } else {
+            echo "<h2 class='not-found'>{$translate->notFoundPresences}</h2>";
+          }
+          ?>
+        </div>
+      </div>
+
+      <div class="cadTutor-container" data-hidden="true">
+        <div class="title">
+          <h1>
+            <?php
+            echo $translate->menuTutorRegistration;
+            ?>
+          </h1>
+        </div>
+
+        <div class="cad-form">
+        <form action="./cadTutor.php" method="post">
+          <div class="form-select">
+              <?php
+              echo  "<label for='aluno'>{$translate->lblStudent}</label>";
+              ?>
+              <select name="aluno" id="aluno" required>
+                <?php
+                echo "<option value='default' selected disabled>{$translate->placeholderStudent}</option>";
+                foreach ($alunosNaoMonitores as $alunoNaoMonitor) {
+                  echo "<option value='{$alunoNaoMonitor->getId()}'>{$alunoNaoMonitor->getNome()}</option>";
+                }
+                ?>
+              </select>
+            </div>
+
+            <div class="form-select">
+              <?php
+              echo  "<label for='materia'>{$translate->lblSubject}</label>";
+              ?>
+              <select name="materia" id="materia" required>
+                <?php
+                echo "<option value='default' selected disabled>{$translate->placeholderSubject}</option>";
+                foreach ($materias as $materia) {
+                  echo "<option value='{$materia->getId()}'>{$materia->getNome()}</option>";
+                }
+                ?>
+              </select>
+            </div>
+
+
+            <?php
+            echo "<input type='submit' name='cadTutor' value='{$translate->registerBtn}'>";
             ?>
           </form>
         </div>
@@ -464,8 +635,69 @@ $materias = Materia::findall();
   <!-- JQUERY -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
-  
+  <script>
+    $(document).ready(function() {
+      toastr.options = {
+        'closeButton': true,
+        'debug': false,
+        'newestOnTop': false,
+        'progressBar': false,
+        'positionClass': 'toast-bottom-right',
+        'preventDuplicates': false,
+        'showDuration': '1000',
+        'hideDuration': '1000',
+        'timeOut': '5000',
+        'extendedTimeOut': '1000',
+        'showEasing': 'swing',
+        'hideEasing': 'linear',
+        'showMethod': 'fadeIn',
+        'hideMethod': 'fadeOut',
+      }
+    });
+  </script>
+  <script>
+    $(document).ready(function() {
+      $('#cadTutoring').on("submit", function(e) {
+        e.preventDefault();
+        let _start = $(this)[0][0].value;
+        let _end = $(this)[0][1].value;
+        let _data = $(this)[0][2].value;
+        let _subject = $(this)[0][3].value;
+        let _class = $(this)[0][4].value;
+
+
+        $.ajax({
+          url: "cadTutoring.php",
+          method: "POST",
+          dataType: "json",
+          data: {
+            "dados": {
+              "start": _start,
+              "end": _end,
+              "data": _data,
+              "subject": _subject,
+              "class": _class
+            }
+          },
+          error: function(res) {
+            toastr.error(res.responseJSON.message)
+            // console.log(res);
+          },
+          success: function(res) {
+            // console.log(res.message);
+            toastr.success(res.message);
+
+          }
+        })
+
+      })
+
+
+    })
+  </script>
+
   <script>
     // Expande o menu lateral
     $('#open-menu').on("click", function() {
@@ -480,6 +712,8 @@ $materias = Materia::findall();
       $('.cadTeacher-container').attr("data-hidden", "true");
       $('.cadStudent-container').attr("data-hidden", "true");
       $('.cadTutoring-container').attr("data-hidden", "true");
+      $('.presence-container').attr("data-hidden", "true");
+      $('.cadTutor-container').attr("data-hidden", "true");
     });
 
     $('.view-cadTeacher').on("click", function() {
@@ -488,6 +722,8 @@ $materias = Materia::findall();
       $('.monitorias-container').attr("data-hidden", "true");
       $('.cadStudent-container').attr("data-hidden", "true");
       $('.cadTutoring-container').attr("data-hidden", "true");
+      $('.presence-container').attr("data-hidden", "true");
+      $('.cadTutor-container').attr("data-hidden", "true");
     });
 
     $('.view-cadStudent').on("click", function() {
@@ -496,6 +732,8 @@ $materias = Materia::findall();
       $('.monitorias-container').attr("data-hidden", "true");
       $('.cadTeacher-container').attr("data-hidden", "true");
       $('.cadTutoring-container').attr("data-hidden", "true");
+      $('.presence-container').attr("data-hidden", "true");
+      $('.cadTutor-container').attr("data-hidden", "true");
     });
 
     $('.view-cadTutoring').on("click", function() {
@@ -504,13 +742,34 @@ $materias = Materia::findall();
       $('.monitorias-container').attr("data-hidden", "true");
       $('.cadTeacher-container').attr("data-hidden", "true");
       $('.cadStudent-container').attr("data-hidden", "true");
+      $('.presence-container').attr("data-hidden", "true");
+      $('.cadTutor-container').attr("data-hidden", "true");
+    });
+
+    $('.view-confirmPresence').on("click", function() {
+      $('.presence-container').attr("data-hidden", "false");
+
+      $('.monitorias-container').attr("data-hidden", "true");
+      $('.cadTeacher-container').attr("data-hidden", "true");
+      $('.cadStudent-container').attr("data-hidden", "true");
+      $('.cadTutoring-container').attr("data-hidden", "true");
+      $('.cadTutor-container').attr("data-hidden", "true");
+    });
+
+    $('.view-cadTutor').on("click", function() {
+      $('.cadTutor-container').attr("data-hidden", "false");
+
+      $('.monitorias-container').attr("data-hidden", "true");
+      $('.cadTeacher-container').attr("data-hidden", "true");
+      $('.cadStudent-container').attr("data-hidden", "true");
+      $('.cadTutoring-container').attr("data-hidden", "true");
+      $('.presence-container').attr("data-hidden", "true");
     });
 
     // Abre o menu do usuário
     $('#user-logo').on("click", function() {
       if (!($('.lang-opt').hasClass('displayed')))
         $('.opt-account').toggleClass('displayed');
-        console.log('aaa');
     });
 
     // Abre o menu de linguagem do site
@@ -540,25 +799,6 @@ $materias = Materia::findall();
       })
     };
   </script>
-  <!-- <script>
-    $(document).ready(function() {
-      $('#materias').on("change", function () {
-        let data = $(this).select()[0].selectedOptions[0].label;
-        $.ajax({
-          url: "index.php",
-          method : "POST",
-          dataType: "json",
-          data: {"data": data},
-          error: function (res) {
-            console.log(res);
-          },
-          success: function (res) {
-            console.log(res);
-          }
-        });
-      });
-    });
-  </script> -->
 </body>
 
 </html>

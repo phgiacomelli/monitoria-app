@@ -4,7 +4,7 @@ namespace models;
 
 use db\MySQL;
 
-class PresencaMonitoria 
+class PresencaMonitoria
 {
 
   private int $uniqid;
@@ -74,16 +74,16 @@ class PresencaMonitoria
       $sql = "UPDATE presenca_monitoria SET  
       idUsuario = '{$this->idUsuario}',
       idMonitoria = '{$this->idMonitoria}', 
-      compareceu = '{$this->compareceu}') 
-      WHERE uniqid = {$this->uniqid}";  
-    } else{
+      compareceu = '{$this->compareceu}' 
+      WHERE uniqID = {$this->uniqid} ";
+    } else {
       $sql = "INSERT INTO presenca_monitoria (idUsuario,idMonitoria, compareceu) 
     VALUES (
       '{$this->idUsuario}',
       '{$this->idMonitoria}',
-      '{$this->compareceu}')"; 
+      '{$this->compareceu}')";
     }
-    
+
     return $conexao->executa($sql);
   }
 
@@ -94,14 +94,36 @@ class PresencaMonitoria
     return $conexao->executa($sql);
   }
 
-  public static function find($idMonitoria): PresencaMonitoria
+  public static function find($uniqId): PresencaMonitoria
   {
-    $m = new PresencaMonitoria(1,2);
+    $conexao = new MySQL();
+    $sql = "SELECT * FROM presenca_monitoria WHERE uniqID = {$uniqId}";
+    $resultado = $conexao->consulta($sql);
+    $m = new PresencaMonitoria(
+      $resultado[0]['idUsuario'],
+      $resultado[0]['idMonitoria']
+    );
+    $m->setUniqId($resultado[0]['uniqID']);
+    $m->setCompareceu($resultado[0]['compareceu']);
     return $m;
   }
 
-  public static function findAll(): array{
-    return array();
+  public static function findAll(): array
+  {
+    $conexao = new MySQL();
+    $sql = "SELECT * FROM presenca_monitoria";
+    $resultados = $conexao->consulta($sql);
+    $monitorias = array();
+    foreach ($resultados as $resultado) {
+      $m = new PresencaMonitoria(
+        $resultado['idUsuario'],
+        $resultado['idMonitoria']
+      );
+      $m->setUniqId($resultado['uniqID']);
+      $m->setCompareceu($resultado['compareceu']);
+      $monitorias[] = $m;
+    }
+    return $monitorias;
   }
 
   public function findAllByMonitoria(): array

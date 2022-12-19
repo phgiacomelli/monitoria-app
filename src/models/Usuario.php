@@ -1,4 +1,5 @@
 <?php
+
 namespace models;
 
 use db\ActiveRecord;
@@ -119,13 +120,14 @@ class Usuario implements ActiveRecord
         idCurso = '{$this->idCurso}' ,
         fotoPerfil = 'noimage.png' WHERE id = {$this->id}";
     } else {
-      $sql = "INSERT INTO usuario (nome,email,senha,contato,tipo,fotoPerfil) 
+      $sql = "INSERT INTO usuario (nome,email,senha,contato,tipo,idCurso,fotoPerfil) 
       VALUES (
           '{$this->nome}',
           '{$this->email}',
           '{$this->senha}' ,
           '{$this->contato}' ,
           '{$this->tipo}',
+          '{$this->idCurso}',
           'noimage.png')";
     }
     return $conexao->executa($sql);
@@ -190,13 +192,13 @@ class Usuario implements ActiveRecord
       $_SESSION['tipo'] = $resultados[0]['tipo'];
       // $_SESSION['language'] = 'en';
       return true;
-    } 
+    }
 
     return false;
-    
   }
 
-  public static function getAdmin():Usuario | null{
+  public static function getAdmin(): Usuario | null
+  {
     $conexao = new MySQL();
     $sql = "SELECT * FROM usuario WHERE tipo = 'admin'";
     $resultado = $conexao->consulta($sql);
@@ -214,5 +216,27 @@ class Usuario implements ActiveRecord
     $u->setId($resultado[0]['id']);
     $u->setIdCurso($resultado[0]['idCurso']);
     return $u;
+  }
+
+
+  public static function findAllStudentAreNotTutor(): array
+  {
+    $conexao = new MySQL();
+    $sql = "SELECT u.id, u.nome, u.email, u.senha, u.contato, u.tipo, u.idCurso FROM usuario u, monitor m WHERE u.id =! m.idUsuario AND u.tipo = 'aluno'";
+    $resultados = $conexao->consulta($sql);
+    $usuarios = array();
+    foreach ($resultados as $resultado) {
+      $p = new Usuario(
+        $resultado['email'],
+        $resultado['senha']
+      );
+      $p->setNome($resultado['nome']);
+      $p->setContato($resultado['contato']);
+      $p->setTipo($resultado['tipo']);
+      $p->setId($resultado['id']);
+      $p->setIdCurso($resultado['idCurso']);
+      $usuarios[] = $p;
+    }
+    return $usuarios;
   }
 }
