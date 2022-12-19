@@ -54,6 +54,7 @@ class ComposerStaticInitbf9066ab07cae047a6449c239386e9de
         'db\\MySQL' => __DIR__ . '/../..' . '/src/db/MySQL.php',
         'models\\Curso' => __DIR__ . '/../..' . '/src/models/Curso.php',
         'models\\Materia' => __DIR__ . '/../..' . '/src/models/Materia.php',
+        'models\\Monitor' => __DIR__ . '/../..' . '/src/models/Monitor.php',
         'models\\Monitoria' => __DIR__ . '/../..' . '/src/models/Monitoria.php',
         'models\\PresencaMonitoria' => __DIR__ . '/../..' . '/src/models/PresencaMonitoria.php',
         'models\\Usuario' => __DIR__ . '/../..' . '/src/models/Usuario.php',

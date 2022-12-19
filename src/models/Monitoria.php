@@ -9,13 +9,13 @@ class Monitoria implements ActiveRecord
 {
 
   private int $id;
-  private int $idMonitor;
-  private int $idMateria;
-
+  public string $correnteAno;
+  
   public function __construct(
+    private int $idMonitor,
+    private int $idMateria,
     public string $horarioInicio,
     public string $data,
-    public string $correnteAno,
     public string $horarioFim,
     public string $sala
   ) {
@@ -127,17 +127,19 @@ class Monitoria implements ActiveRecord
         horarioInicio = '{$this->horarioInicio}' ,
         data = '{$this->data}' ,
         correnteAno = '{$this->correnteAno}',
-        horarioFim = '{$this->horarioFim}'
+        horarioFim = '{$this->horarioFim}',
+        sala = '{$this->sala}'
         WHERE id = {$this->id}";
     } else {
-      $sql = "INSERT INTO monitoria (idMonitor,idMateria,horarioInicio,data,correnteAno,horarioFim) 
+      $sql = "INSERT INTO monitoria (idMonitor,idMateria,horarioInicio,data,correnteAno,horarioFim,sala) 
       VALUES (
         '{$this->idMonitor}' ,
         '{$this->idMateria}' ,
         '{$this->horarioInicio}' ,
         '{$this->data}' ,
-        '{$this->correnteAno}',
-        '{$this->horarioFim}')";
+        year(CURRENT_DATE()),
+        '{$this->horarioFim}',
+        '{$this->sala}')";
     }
     return $conexao->executa($sql);
   }
@@ -155,15 +157,15 @@ class Monitoria implements ActiveRecord
     $sql = "SELECT * FROM monitoria WHERE id = {$id}";
     $resultado = $conexao->consulta($sql);
     $m = new Monitoria(
+      $resultado[0]['idMonitor'],
+      $resultado[0]['idMateria'],
       $resultado[0]['horarioInicio'],
       $resultado[0]['data'],
-      $resultado[0]['correnteAno'],
       $resultado[0]['horarioFim'],
       $resultado[0]['sala']
     );
     $m->setId($resultado[0]['id']);
-    $m->setIdMonitor($resultado[0]['idMonitor']);
-    $m->setIdMateria($resultado[0]['idMateria']);
+    $m->setCorrenteAno($resultado[0]['idMonitor']);
     return $m;
   }
 
@@ -175,16 +177,16 @@ class Monitoria implements ActiveRecord
     $monitorias = array();
     foreach ($resultados as $resultado) {
       $m = new Monitoria(
+        $resultado['idMonitor'],
+        $resultado['idMateria'],
         $resultado['horarioInicio'],
         $resultado['data'],
-        $resultado['correnteAno'],
         $resultado['horarioFim'],
         $resultado['sala']
 
       );
       $m->setId($resultado['id']);
-      $m->setIdMonitor($resultado['idMonitor']);
-      $m->setIdMateria($resultado['idMateria']);
+      $m->setCorrenteAno($resultado['correnteAno']);
       $monitorias[] = $m;
     }
     return $monitorias;

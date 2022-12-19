@@ -11,6 +11,7 @@ return array(
     'db\\MySQL' => $baseDir . '/src/db/MySQL.php',
     'models\\Curso' => $baseDir . '/src/models/Curso.php',
     'models\\Materia' => $baseDir . '/src/models/Materia.php',
+    'models\\Monitor' => $baseDir . '/src/models/Monitor.php',
     'models\\Monitoria' => $baseDir . '/src/models/Monitoria.php',
     'models\\PresencaMonitoria' => $baseDir . '/src/models/PresencaMonitoria.php',
     'models\\Usuario' => $baseDir . '/src/models/Usuario.php',

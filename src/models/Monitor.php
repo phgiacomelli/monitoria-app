@@ -100,6 +100,7 @@ class Monitor implements ActiveRecord
       $resultado[0]['idMateria'],
       $resultado[0]['correnteAno']
     );
+    $m->setId($resultado[0]['id']);
     return $m;
   }
   public static function findall(): array
@@ -114,9 +115,29 @@ class Monitor implements ActiveRecord
         $resultado['idMateria'],
         $resultado['correnteAno']
       );
+      $m->setId($resultado['id']);
       $monitores[] = $m;
     }
     return $monitores;
+  }
+
+  public static function findBySubject($idSubject): Monitor | string
+  {
+    $conexao = new MySQL();
+    $sql = "SELECT * FROM monitor WHERE idMateria = {$idSubject}";
+    $resultado = $conexao->consulta($sql);
+    if (count($resultado)>0) {
+      $m = new Monitor(
+        $resultado[0]['idUsuario'],
+        $resultado[0]['idMateria'],
+        $resultado[0]['correnteAno']
+      );
+      $m->setId($resultado[0]['id']);
+      return $m;
+    } else{
+      return 'Não encontrado!';
+    }
+    var_dump($resultado);
   }
 
 }
