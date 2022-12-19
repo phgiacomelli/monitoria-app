@@ -9,12 +9,18 @@
   "lblCourse":"Curso",
   "lblType":"Tipo",
   "lblPwd":"Senha",
+  "lblSubject":"Matéria",
+  "lblStart":"Início",
+  "lblEnd":"Fim",
+  "lblClass":"Sala",
   "placeholderName":"Seu nome",
   "placeholderTel":"Seu telefone",
   "placeholderCourse":"Selecione seu curso",
   "placeholderType":"Selecione o tipo do usuário",
   "placeholderPwd":"Sua senha",
   "placeholderEmail":"Seu e-mail",
+  "placeholderSubject":"Selecione a matéria",
+  "placeholderClass":"Selecione a Sala",
   "loginBtn" : "Entrar",
   "registerBtn" : "Cadastrar",
   "menuTutoringTitle":"Visualizar monitorias",
@@ -30,5 +36,8 @@
   "noBtn": "Não",
   "tutoringList" : "Listagem de Monitorias",
   "optTeacher": "Professor",
-  "optStudent": "Aluno"
+  "optStudent": "Aluno",
+  "deleteTutoring":"Cancelar",
+  "questDelete":"Tem certeza que deseja deletar esta monitoria?",
+  "notFoundTutoring":"Nenhuma monitoria encontrada..."
 }

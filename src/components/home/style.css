@@ -445,3 +445,13 @@ select :hover{
   background-color: #EB5328;
   border-radius: .8rem;
 }
+
+.not-found{
+  margin-top: 5rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-weight: bold;
+}

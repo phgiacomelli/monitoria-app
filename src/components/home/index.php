@@ -2,6 +2,7 @@
 
 use models\Curso;
 use models\Materia;
+use models\Monitor;
 use models\Monitoria;
 use models\PresencaMonitoria;
 use models\Usuario;
@@ -13,6 +14,9 @@ require_once("../../translate/translate-service.php");
 $monitorias = Monitoria::findAll();
 $presencas = PresencaMonitoria::findAllByUsuario($_SESSION['idUsuario']);
 $cursos = Curso::findall();
+$monitores = Monitor::findall();
+$materias = Materia::findall();
+// var_dump($materias);
 
 ?>
 <!DOCTYPE html>
@@ -150,7 +154,7 @@ $cursos = Curso::findall();
               $menuTutoringRegistration = $translate->menuTutoringRegistration;
               $features = "
               <li>
-                <a href='#' title='Cadastrar monitoria'>
+                <a href='#' class='view-cadTutoring' title='Cadastrar monitoria'>
                 <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' style='transform: ;msFilter:;'><path d='M3 8v11c0 2.201 1.794 3 3 3h15v-2H6.012C5.55 19.988 5 19.806 5 19c0-.101.009-.191.024-.273.112-.576.584-.717.988-.727H21V4c0-1.103-.897-2-2-2H6c-1.206 0-3 .799-3 3v3zm3-4h13v12H5V5c0-.806.55-.988 1-1z'></path><path d='M11 14h2v-3h3V9h-3V6h-2v3H8v2h3z'></path></svg>
                   <p class='opt-text'>
                     {$menuTutoringRegistration}
@@ -180,90 +184,115 @@ $cursos = Curso::findall();
 
         <div class="monitorias-list">
           <?php
-          foreach ($monitorias as $monitoria) {
-            $monitoriaId = $monitoria->getId();
-            $materia = Materia::find($monitoria->getIdMateria());
-            $horaInicio = strtotime($monitoria->getHorarioInicio());
-            $horaInicioF = date("H:i", $horaInicio);
-            $horaFinal = strtotime($monitoria->getHorarioFim());
-            $horaFinalF = date("H:i", $horaFinal);
-            $monitor = Usuario::find($monitoria->getIdMonitor());
-            $nomeMonitor = $monitor->getNome();
-
-            $confirmou = false;
-            foreach ($presencas as $presenca) {
-              if ($presenca->getIdMonitoria() == $monitoriaId) {
-                $confirmou = true;
+          if (count($monitorias) > 0) {
+            foreach ($monitorias as $monitoria) {
+              $monitoriaId = $monitoria->getId();
+              $materia = Materia::find($monitoria->getIdMateria());
+              $horaInicio = strtotime($monitoria->getHorarioInicio());
+              $horaInicioF = date("H:i", $horaInicio);
+              $horaFinal = strtotime($monitoria->getHorarioFim());
+              $horaFinalF = date("H:i", $horaFinal);
+              $monitor = Monitor::find($monitoria->getIdMonitor());
+              $userMonitor = Usuario::find($monitor->getIdUsuario());
+              $nomeMonitor = $userMonitor->getNome();
+  
+              $confirmou = false;
+              foreach ($presencas as $presenca) {
+                if ($presenca->getIdMonitoria() == $monitoriaId) {
+                  $confirmou = true;
+                }
               }
-            }
-            $btn = "
-              <div class='monitoria-btn'>
-                <a href='#presencaMonitoria{$monitoriaId}' rel='modal:open'>
-                  <p>{$translate->presenceBtn}</p>
-                </a>
-              </div>
-            ";
-
-            if ($confirmou) {
               $btn = "
-                <div class='monitoria-btn attend'>
-                  <a>
-                    <p>
-                      {$translate->confirmedPresence}
-                    </p>
+                <div class='monitoria-btn'>
+                  <a href='#presencaMonitoria{$monitoriaId}' rel='modal:open'>
+                    <p>{$translate->presenceBtn}</p>
                   </a>
                 </div>
-            ";
-            }
-
-            if ($_SESSION['tipo'] != 'aluno')
-              $btn = '';
-
-            $template =
-              "<div class='monitoria'>
-              <div class='monitoria-header'>
-                <h2>{$materia->getNome()}</h2>
-              </div>
-              <div class='monitoria-content'>
-                <p class='monitoria-date'>📆 {$monitoria->getData()}</p>
-                <div class='monitoria-hours'>
-                  <p>
-                    🕐 {$horaInicioF} - {$horaFinalF}
-                  </p>
+              ";
+  
+              if ($confirmou) {
+                $btn = "
+                  <div class='monitoria-btn attend'>
+                    <a>
+                      <p>
+                        {$translate->confirmedPresence}
+                      </p>
+                    </a>
+                  </div>
+              ";
+              }
+  
+              if ($_SESSION['tipo'] != 'aluno')
+                $btn = "
+                <div class='monitoria-btn'>
+                  <a href='#deleteMonitoria{$monitoriaId}' rel='modal:open'>
+                    <p>{$translate->deleteTutoring}</p>
+                  </a>
+                </div>";
+  
+              $template =
+                "<div class='monitoria'>
+                <div class='monitoria-header'>
+                  <h2>{$materia->getNome()}</h2>
                 </div>
-                <div class='monitoria-class'>
-                  <p>
-                    📌 {$monitoria->getSala()}
-                  </p>
+                <div class='monitoria-content'>
+                  <p class='monitoria-date'>📆 {$monitoria->getData()}</p>
+                  <div class='monitoria-hours'>
+                    <p>
+                      🕐 {$horaInicioF} - {$horaFinalF}
+                    </p>
+                  </div>
+                  <div class='monitoria-class'>
+                    <p>
+                      📌 {$monitoria->getSala()}
+                    </p>
+                  </div>
+                  <div class='monitoria-mentor'>
+                    <p>
+                      🎓 {$nomeMonitor}
+                    </p>
+                  </div>
                 </div>
-                <div class='monitoria-mentor'>
-                  <p>
-                    🎓 {$nomeMonitor}
-                  </p>
-                </div>
+                
+                {$btn}
               </div>
               
-              {$btn}
-            </div>
-            
-            <div id='presencaMonitoria{$monitoriaId}' class='modal'>
-              <h1 class='modal-title'>{$translate->questPresence}</h1>
-              <div class='modal-btns'>
-                <div class='confirm'>
-                  <form action='marcaPresenca.php' method='post'>
-                    <input type='hidden' name='idMonitoria' value='{$monitoriaId}'>
-                    <input type='submit' name='confirmaPresena' value='{$translate->yesBtn}' >
-                  </form>
-                </div>
-                <div class='cancel'>
-                  
-                    <a href='#' rel='modal:close'>{$translate->noBtn}</a>
-                  
+              <div id='presencaMonitoria{$monitoriaId}' class='modal'>
+                <h1 class='modal-title'>{$translate->questPresence}</h1>
+                <div class='modal-btns'>
+                  <div class='confirm'>
+                    <form action='marcaPresenca.php' method='post'>
+                      <input type='hidden' name='idMonitoria' value='{$monitoriaId}'>
+                      <input type='submit' name='confirmaPresena' value='{$translate->yesBtn}' >
+                    </form>
+                  </div>
+                  <div class='cancel'>
+                    
+                      <a href='#' rel='modal:close'>{$translate->noBtn}</a>
+                    
+                  </div>
                 </div>
               </div>
-            </div>
-            ";
-            echo $template;
+  
+              <div id='deleteMonitoria{$monitoriaId}' class='modal'>
+                <h1 class='modal-title'>{$translate->questDelete}</h1>
+                <div class='modal-btns'>
+                  <div class='confirm'>
+                    <form action='deletaMonitoria.php' method='post'>
+                      <input type='hidden' name='idMonitoria' value='{$monitoriaId}'>
+                      <input type='submit' name='deleteTutoring' value='{$translate->yesBtn}' >
+                    </form>
+                  </div>
+                  <div class='cancel'>
+                      <a href='#' rel='modal:close'>{$translate->noBtn}</a>
+                  </div>
+                </div>
+              </div>
+              ";
+              echo $template;
+            }
+          } else{
+            echo "<h2 class='not-found'>{$translate->notFoundTutoring}</h2>";
           }
           ?>
         </div>
@@ -365,7 +394,7 @@ $cursos = Curso::findall();
       </div>
 
 
-      <div class="cadTutoring-container" data-hidden="false">
+      <div class="cadTutoring-container" data-hidden="true">
         <div class="title">
           <h1>
             <?php
@@ -375,31 +404,53 @@ $cursos = Curso::findall();
         </div>
 
         <div class="cad-form">
-          <form action="./cadUser.php" method="post">
+          <form action="./cadTutoring.php" method="post">
             <div class="form-group">
               <?php
-              echo "<label for='name'>{$translate->lblName}</label>
-                        <input type='text' name='name' placeholder='{$translate->placeholderName}' required>";
+              echo "<label for='start'>{$translate->lblStart}</label>
+                        <input type='time' name='start' required>";
               ?>
               </label>
             </div>
             <div class="form-group">
               <?php
-              echo "<label for='email'>E-mail</label>
-                        <input type='email' name='email' placeholder='{$translate->placeholderEmail}' required>";
+              echo "<label for='end'>{$translate->lblEnd}</label>
+                        <input type='time' name='end' required>";
               ?>
               </label>
             </div>
             <div class="form-group">
               <?php
-              echo "<label for='tel'>{$translate->lblTel}</label>
-                        <input type='tel' name='tel' placeholder='{$translate->placeholderTel}' required>";
+              echo "<label for='date'>{$translate->lblTel}</label>
+                        <input type='date' name='date' required>";
+              ?>
+              </label>
+            </div>
+
+            <div class="form-select">
+              <?php
+              echo  "<label for='subject'>{$translate->lblSubject}</label>";
+              ?>
+              <select name="idMateria" id="subject">
+                <?php
+                echo "<option value='default' selected disabled>{$translate->placeholderSubject}</option>";
+                foreach ($materias as $materia) {
+                  echo "<option value='{$materia->getId()}'>{$materia->getNome()}</option>";
+                }
+                ?>
+              </select>
+            </div>
+            <div class="form-group">
+              <?php
+              echo "<label for='sala'>{$translate->lblClass}</label>
+                        <input type='text' name='sala' placeholder='{$translate->placeholderClass}' required>";
               ?>
               </label>
             </div>
 
             <?php
-              echo "<input type='submit' name='cadTeacher' value='{$translate->registerBtn}'>";
+
+              echo "<input type='submit' name='cadTutoring' value='{$translate->registerBtn}'>";
             ?>
           </form>
         </div>
@@ -411,9 +462,10 @@ $cursos = Curso::findall();
   </div>
 
   <!-- JQUERY -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 
+  
   <script>
     // Expande o menu lateral
     $('#open-menu').on("click", function() {
@@ -427,6 +479,7 @@ $cursos = Curso::findall();
 
       $('.cadTeacher-container').attr("data-hidden", "true");
       $('.cadStudent-container').attr("data-hidden", "true");
+      $('.cadTutoring-container').attr("data-hidden", "true");
     });
 
     $('.view-cadTeacher').on("click", function() {
@@ -434,6 +487,7 @@ $cursos = Curso::findall();
 
       $('.monitorias-container').attr("data-hidden", "true");
       $('.cadStudent-container').attr("data-hidden", "true");
+      $('.cadTutoring-container').attr("data-hidden", "true");
     });
 
     $('.view-cadStudent').on("click", function() {
@@ -441,12 +495,22 @@ $cursos = Curso::findall();
 
       $('.monitorias-container').attr("data-hidden", "true");
       $('.cadTeacher-container').attr("data-hidden", "true");
+      $('.cadTutoring-container').attr("data-hidden", "true");
+    });
+
+    $('.view-cadTutoring').on("click", function() {
+      $('.cadTutoring-container').attr("data-hidden", "false");
+
+      $('.monitorias-container').attr("data-hidden", "true");
+      $('.cadTeacher-container').attr("data-hidden", "true");
+      $('.cadStudent-container').attr("data-hidden", "true");
     });
 
     // Abre o menu do usuário
     $('#user-logo').on("click", function() {
       if (!($('.lang-opt').hasClass('displayed')))
         $('.opt-account').toggleClass('displayed');
+        console.log('aaa');
     });
 
     // Abre o menu de linguagem do site
@@ -474,8 +538,27 @@ $cursos = Curso::findall();
         $('.menu-bar').removeClass('expand');
         $('.opt-text').removeClass('displayed');
       })
-    }
+    };
   </script>
+  <!-- <script>
+    $(document).ready(function() {
+      $('#materias').on("change", function () {
+        let data = $(this).select()[0].selectedOptions[0].label;
+        $.ajax({
+          url: "index.php",
+          method : "POST",
+          dataType: "json",
+          data: {"data": data},
+          error: function (res) {
+            console.log(res);
+          },
+          success: function (res) {
+            console.log(res);
+          }
+        });
+      });
+    });
+  </script> -->
 </body>
 
 </html>
